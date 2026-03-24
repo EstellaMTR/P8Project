@@ -1,0 +1,81 @@
+# =========================
+
+# GENERAL
+
+# =========================
+
+.DS_Store
+Thumbs.db
+
+# =========================
+
+# JAVA / SPRING BOOT (Maven)
+
+# =========================
+
+/target/
+*.log
+
+# Maven wrapper logs
+
+.mvn/wrapper/maven-wrapper.jar
+
+# IntelliJ IDEA
+
+.idea/
+*.iml
+
+# Eclipse
+
+.project
+.classpath
+.settings/
+
+# VS Code
+
+.vscode/
+
+# =========================
+
+# NODE / REACT
+
+# =========================
+
+node_modules/
+dist/
+build/
+
+# npm logs
+
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# env files
+
+.env
+.env.*
+
+# =========================
+
+# OPENAPI
+
+# =========================
+
+# Generated schema (optional: keep if you want versioned API snapshots)
+
+openapi/schema.json
+
+# Generated client (can always be regenerated)
+
+frontend/src/api/
+
+# =========================
+
+# OS / TEMP FILES
+
+# =========================
+
+*.swp
+*.swo
+*~
