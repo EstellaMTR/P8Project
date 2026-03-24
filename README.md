@@ -1,0 +1,7 @@
+# To run backend:
+    First, cd into backend folder.
+### Powershell: 
+    .\mvnw.cmd spring-boot:run
+
+### Command Prompt:
+    mvnw.cmd spring-boot:run    
