@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 // The "RequestMapping" means that all endpoints in this class will start with "/api"
 @RestController
 @RequestMapping("/api")  // optional base path
-public class HelloWorldEndpoint {
+public class HelloWorldController {
 
     // GET endpoint
     @GetMapping("/hello")
