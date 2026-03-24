@@ -1,0 +1,17 @@
+{
+  "name": "openapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate": "curl http://localhost:8080/v3/api-docs -o schema.json && npx openapi-generator-cli generate -i schema.json -g javascript -o ../frontend/src/api"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@openapitools/openapi-generator-cli": "^2.31.0"
+  }
+}
