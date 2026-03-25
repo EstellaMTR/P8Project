@@ -9,6 +9,13 @@
 ### Bash (macbook)
     ./mvnw spring-boot:run
 
+##### If having permission problems on Mac, try:
+    chmod +x mvnw
+
+    Then
+
+    ./mvnw spring-boot:run
+
 ## Swagger:
 http://localhost:8080/swagger-ui/index.html#/
 This allows you to see the current endpoints and call them (like Postman)
@@ -17,6 +24,10 @@ This allows you to see the current endpoints and call them (like Postman)
 The database is a single SQLite file. It is called database.db and is located in the root of the backend folder.
 You can view it using DB browser. If the database.db file is not there, then run the backend first.
 When we make a change to our entities, we should delete the database.db file, then run the backend again, so that it generates the database.db file again, with the updated schema
+
+# To run Frontend
+- First, run "npm install" to install all node packages 
+- The run "npm run dev" to run the frontend
 
 # Dependencies:
 ### Backend:
