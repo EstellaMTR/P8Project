@@ -6,6 +6,9 @@
 ### Command Prompt:
     mvnw.cmd spring-boot:run    
 
+### Bash (macbook)
+    ./mvnw spring-boot:run
+
 ## Swagger:
 http://localhost:8080/swagger-ui/index.html#/
 This allows you to see the current endpoints and call them (like Postman)
@@ -26,5 +29,5 @@ How to call the backend from the frontend:
 
 cd into "openapi" folder
 Call command "npm run generate"
-    - This generatesa http client that makes it easier to call the backend from the frontend
+    - This generates a http client that makes it easier to call the backend from the frontend
 
