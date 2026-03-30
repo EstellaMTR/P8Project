@@ -1,3 +1,18 @@
+:root {
+  --textDark: #2e2e2e;
+  --textLight: #f4f7ff;
+  --textPlaceholder: #919191;
+  --bgMain: #f4f7ff;
+  --bgAccent: #d0e0ff;
+  --cardMain: #456ebb;
+  --cardAccent: #f4f7ff;
+  --button: #14b8a6;
+  --bgGradient: linear-gradient(135deg, #456ebb 0%, #d0e0ff 50%, #f4f7ff 100%);
+  font-family: "Roboto", sans-serif;
+  
+}
+
+
 
 
 
