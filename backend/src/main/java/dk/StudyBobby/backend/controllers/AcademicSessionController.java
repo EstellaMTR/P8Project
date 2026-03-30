@@ -26,6 +26,7 @@ public class AcademicSessionController {
     // POST create academic session
     @PostMapping
     public AcademicSession create(@RequestBody AcademicSession session) {
+        session.setCreatedAt(java.time.LocalDateTime.now()); // Set createdAt to current time
         return repo.save(session);
     }
 }
