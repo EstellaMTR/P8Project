@@ -1,8 +1,8 @@
 package dk.StudyBobby.backend.controllers;
 
 import org.springframework.web.bind.annotation.*;
-import dk.StudyBobby.backend.entities.User;
-import dk.StudyBobby.backend.repositories.UserRepository;
+import dk.StudyBobby.backend.entities.AcademicSession;
+import dk.StudyBobby.backend.repositories.AcademicSessionsRepository;
 
 import java.util.List;
 // controllers are endpoints. They are what we can call from the frontend to do things. 

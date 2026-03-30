@@ -1,7 +1,7 @@
 package dk.StudyBobby.backend.entities;
 
 import jakarta.persistence.*;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.time.Duration;
 
 @Entity // An entity is the same as a table in the database, and each instance of this class will be a row in that table.
@@ -14,21 +14,21 @@ public class AcademicSession {
 
     private Long userId;
 
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 
     private String title;
 
-    private String sessionType;
+    private String sessionType; // should be enum
 
-    private int state;
+    private int state; // should also be enum
 
-    private Timespan duration;
+    private Duration duration;
 
     // Constructors
     public AcademicSession() {}
 
-    public AcademicSession(Timestamp createdAt, String title, String sessionType, int state, Timespan duration) {
-        this.userId = User.getId();
+    public AcademicSession(Long userId, LocalDateTime createdAt, String title, String sessionType, int state, Duration duration) {
+        this.userId = userId;
         this.createdAt = createdAt;
         this.title = title;
         this.sessionType = sessionType;
