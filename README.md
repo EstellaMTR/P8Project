@@ -43,3 +43,12 @@ cd into "openapi" folder
 Call command "npm run generate"
     - This generates a http client that makes it easier to call the backend from the frontend
 
+# DTO's
+How DTO's work:
+Frontend (JSON)
+      ↓
+DTO (GoalRequest)
+      ↓
+Entity (Goal)
+      ↓
+Database
