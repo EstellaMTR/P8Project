@@ -25,7 +25,7 @@ public class AcademicSession {
     private String title;
 
     private String sessionType; // should be enum
-
+    
     private int state; // should also be enum
 
     private Duration duration;
