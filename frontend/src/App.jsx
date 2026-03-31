@@ -4,6 +4,14 @@ import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
 
+
+import CreateSessionTest from "./pages/CreateSessionTest";
+
+function App() {
+  return <CreateSessionTest />;
+}
+
+
 function App() {
   const [count, setCount] = useState(0)
 
@@ -118,4 +126,5 @@ function App() {
   )
 }
 
-export default App
+export default App;
+
