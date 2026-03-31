@@ -2,12 +2,12 @@ package dk.StudyBobby.backend.dto;
 
 import java.util.List;
 
-public class AcademicSessionAndGoalRequest {
+public class CreateRequest {
 
     private Long userId;
     private String title;
-    private String sessionType;
-    private int state;
+    private SessionType sessionType;
+    private SessionState state;
     private Long duration;
 
     private List<GoalRequest> goals;
@@ -23,19 +23,19 @@ public class AcademicSessionAndGoalRequest {
         this.title = title;
     }
 
-    public String getSessionType() {
+    public SessionType getSessionType() {
         return sessionType;
     }
 
-    public void setSessionType(String sessionType) {
+    public void setSessionType(SessionType sessionType) {
         this.sessionType = sessionType;
     }
 
-    public int getState() {
+    public SessionState getState() {
         return state;
     }
 
-    public void setState(int state) {
+    public void setState(SessionState state) {
         this.state = state;
     }
 

@@ -1,6 +1,6 @@
 package dk.StudyBobby.backend.controllers;
 
-import dk.StudyBobby.backend.dto.AcademicSessionAndGoalRequest;
+import dk.StudyBobby.backend.dto.CreateRequest;
 import dk.StudyBobby.backend.dto.GoalRequest;
 import dk.StudyBobby.backend.entities.Goal;
 import dk.StudyBobby.backend.entities.User;
@@ -9,6 +9,7 @@ import dk.StudyBobby.backend.repositories.UserRepository;
 import org.springframework.web.bind.annotation.*;
 import dk.StudyBobby.backend.entities.AcademicSession;
 import dk.StudyBobby.backend.repositories.AcademicSessionsRepository;
+import dk.StudyBobby.backend.dto.EditRequest
 
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class AcademicSessionController {
 
     // POST create academic session
     @PostMapping
-    public AcademicSession create(@RequestBody AcademicSessionAndGoalRequest request) {
+    public AcademicSession create(@RequestBody CreateRequest request) {
 
         if (request.getGoals() == null || request.getGoals().isEmpty()) {
             throw new RuntimeException("At least one goal is required");
@@ -64,6 +65,40 @@ public class AcademicSessionController {
             goalRepo.save(goal);
         }
 
-        return session;
+        return session; // should be HTTP code
+    }
+    
+    @PutMapping("/{id}")
+    public AcademicSession edit(@RequestBody EditRequest request) {
+        Optional<AcademicSession> academicSession = repo.findById(request.getAcademicSessionId());
+        if (academicSession.isEmpty()) throw new RuntimeException("Academic session does not exist");
+
+        AcademicSession session = academicSession.get();
+        session.setTitle(request.getTitle());
+        session.setSessionType(request.getSessionType());
+        session.setState(request.getState());
+        session.setDuration(java.time.Duration.ofMinutes(request.getDuration()));
+
+        session = repo.save(session);
+
+        for (GoalRequest g : request.getGoals()) {
+            Goal goal = new Goal();
+            goal.setGoal(g.getGoal());
+            goal.setAcademicSession(session);
+            goalRepo.save(goal);
+        }
+
+        return session;  // should be HTTP code
+
+    }
+
+    @DeleteMapping("/{id}")
+        public String deleteAcademicSession(@PathVariable Long id) {
+            return "AcademicSession with" + id + "succesfully deleted."
+        }
+    }
+
 }
-}
+
+
+
