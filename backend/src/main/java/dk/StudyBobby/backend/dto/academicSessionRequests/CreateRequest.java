@@ -1,4 +1,8 @@
-package dk.StudyBobby.backend.dto;
+package dk.StudyBobby.backend.dto.academicSessionRequests;
+
+import dk.StudyBobby.backend.enums.SessionState;
+import dk.StudyBobby.backend.enums.SessionType;
+import dk.StudyBobby.backend.dto.goalRequests.GoalCreateRequest;
 
 import java.util.List;
 
@@ -10,7 +14,7 @@ public class CreateRequest {
     private SessionState state;
     private Long duration;
 
-    private List<GoalRequest> goals;
+    private List<GoalCreateRequest> goals;
 
     // getters & setters
 
@@ -48,11 +52,11 @@ public class CreateRequest {
     }
 
 
-    public List<GoalRequest> getGoals() {
+    public List<GoalCreateRequest> getGoals() {
         return goals;
     }
 
-    public void setGoals(List<GoalRequest> goals) {
+    public void setGoals(List<GoalCreateRequest> goals) {
         this.goals = goals;
     }
 

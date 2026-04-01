@@ -33,4 +33,11 @@ public class Goal {
     public String getGoal() { return goal; }
     public void setGoal(String goal) {this.goal = goal; }
 
+//    public Long getAcademicSessionId() {
+//        return academicSessionId;
+//    }
+//    public void setAcademicSessionId(Long academicSessionId) {
+//        this.academicSessionId = academicSessionId;
+//    }
+
 }

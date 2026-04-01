@@ -1,4 +1,6 @@
-package dk.StudyBobby.backend.dto;
+package dk.StudyBobby.backend.dto.academicSessionRequests;
+
+import dk.StudyBobby.backend.enums.SessionState;
 
 import java.util.List;
 

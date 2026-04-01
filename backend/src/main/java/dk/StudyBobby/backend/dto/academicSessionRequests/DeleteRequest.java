@@ -1,4 +1,4 @@
-package dk.StudyBobby.backend.dto;
+package dk.StudyBobby.backend.dto.academicSessionRequests;
 
 import java.util.List;
 
@@ -25,4 +25,3 @@ public class DeleteRequest {
     } 
 }
 
-}

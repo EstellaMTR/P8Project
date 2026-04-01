@@ -1,7 +1,7 @@
 package dk.StudyBobby.backend.controllers;
 
-import dk.StudyBobby.backend.dto.CreateRequest;
-import dk.StudyBobby.backend.dto.GoalRequest;
+import dk.StudyBobby.backend.dto.academicSessionRequests.CreateRequest;
+import dk.StudyBobby.backend.dto.goalRequests.GoalCreateRequest;
 import dk.StudyBobby.backend.entities.Goal;
 import dk.StudyBobby.backend.entities.User;
 import dk.StudyBobby.backend.repositories.GoalRepository;
@@ -9,7 +9,7 @@ import dk.StudyBobby.backend.repositories.UserRepository;
 import org.springframework.web.bind.annotation.*;
 import dk.StudyBobby.backend.entities.AcademicSession;
 import dk.StudyBobby.backend.repositories.AcademicSessionsRepository;
-import dk.StudyBobby.backend.dto.EditRequest
+import dk.StudyBobby.backend.dto.academicSessionRequests.EditRequest;
 
 import java.util.List;
 import java.util.Optional;
@@ -58,7 +58,7 @@ public class AcademicSessionController {
 
         session = repo.save(session); // must save first to get ID
 
-        for (GoalRequest g : request.getGoals()) {
+        for (GoalCreateRequest g : request.getGoals()) {
             Goal goal = new Goal();
             goal.setGoal(g.getGoal());
             goal.setAcademicSession(session);
@@ -81,7 +81,7 @@ public class AcademicSessionController {
 
         session = repo.save(session);
 
-        for (GoalRequest g : request.getGoals()) {
+        for (GoalCreateRequest g : request.getGoals()) {
             Goal goal = new Goal();
             goal.setGoal(g.getGoal());
             goal.setAcademicSession(session);
@@ -94,11 +94,12 @@ public class AcademicSessionController {
 
     @DeleteMapping("/{id}")
         public String deleteAcademicSession(@PathVariable Long id) {
-            return "AcademicSession with" + id + "succesfully deleted."
+            repo.deleteById(id);
+            return "AcademicSession with " + id + " successfully deleted.";
         }
     }
 
-}
+
 
 
 

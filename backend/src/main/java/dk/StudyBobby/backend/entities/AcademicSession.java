@@ -1,5 +1,7 @@
 package dk.StudyBobby.backend.entities;
 
+import dk.StudyBobby.backend.enums.SessionState;
+import dk.StudyBobby.backend.enums.SessionType;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import jakarta.persistence.Column;
@@ -24,16 +26,16 @@ public class AcademicSession {
 
     private String title;
 
-    private String sessionType; // should be enum
+    private SessionType sessionType; // should be enum
     
-    private int state; // should also be enum
+    private SessionState state; // should also be enum
 
     private Duration duration;
 
     // Constructors
     public AcademicSession() {}
 
-    public AcademicSession(User user, String title, String sessionType, int state, Duration duration) {
+    public AcademicSession(User user, String title, SessionType sessionType, SessionState state, Duration duration) {
         this.user = user;
         this.title = title;
         this.sessionType = sessionType;
@@ -53,11 +55,11 @@ public class AcademicSession {
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }
 
-    public String getSessionType() { return sessionType; }
-    public void setSessionType(String sessionType) { this.sessionType = sessionType; }
+    public SessionType getSessionType() { return sessionType; }
+    public void setSessionType(SessionType sessionType) { this.sessionType = sessionType; }
 
-    public int getState() { return state; }
-    public void setState(int state) { this.state = state; }
+    public SessionState getState() { return state; }
+    public void setState(SessionState state) { this.state = state; }
 
     public Duration getDuration() { return duration; }
     public void setDuration(Duration duration) { this.duration = duration; }

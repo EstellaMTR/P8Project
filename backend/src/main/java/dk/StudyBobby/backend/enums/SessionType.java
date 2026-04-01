@@ -1,4 +1,4 @@
-package dk.StudyBobby.backend.entities;
+package dk.StudyBobby.backend.enums;
 
 public enum SessionType {
     STUDY,
