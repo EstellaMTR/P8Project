@@ -18,13 +18,15 @@ import { useState } from 'react';
 export default function CreateSessionPopUp({ open, onClose, onCreate }) {
     const [title, setTitle] = useState("New Session");
     const [type, setType] = useState("");
-    const [goals, setGoals] = useState([]);
+    const [goals, setGoals] = useState(["Write your goal here"]);
     const [newGoal, setNewGoal] = useState("");
+    const [editingIndex, setEditingIndex] = useState(null);
+    const [editingValue, setEditingValue] = useState("");
     const [hours, setHours] = useState();
     const [minutes, setMinutes] = useState();
 
     const addGoal = () => {
-        if (newGoal.trim() !== "") {
+        if (newGoal.trim() !== "" && goals.length < 3) {
             setGoals([...goals, newGoal]);
             setNewGoal("");
         }
@@ -44,11 +46,17 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
     return (
         <Dialog open={open} onClose={onClose} maxWidth="sm" fullWidth>
             <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span>New Session</span>
                 <IconButton onClick={onClose}>
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
+
+            <TextField
+            label="Session name"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            sx={{mt: 2, width: 1, alignItems: 'center'}}
+            />
 
             <DialogContent>
 
@@ -79,17 +87,24 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     ))}
                 </Stack>
 
+                {/* Create new goal*/}
+            {goals.length < 3 && (
                 <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
                     <TextField
                         fullWidth
                         label="Add a goal"
                         value={newGoal}
                         onChange={(e) => setNewGoal(e.target.value)}
+                        disabled={goals.lenght >= 3}
                         />
                     <IconButton onClick={addGoal}>
                         <AddIcon/>
-                    </IconButton>
+                    </IconButton> 
                 </Stack>
+            )} 
+
+            {/* Edit goals*/}
+
                 
                 {/* Time selection */}
                 <Typography sx={{ mt: 3 }}>I expect this session to take...</Typography>
