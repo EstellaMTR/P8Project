@@ -9,7 +9,7 @@ import {
     Box,
     Stack,
     ToggleButton,
-    ToggleButtonGroup
+    ToggleButtonGroup,
 } from "@mui/material";
 
 import AddIcon from "@mui/icons-material/Add";
@@ -23,12 +23,11 @@ import { useState } from "react";
 
 export default function CreateSessionPopUp({ open, onClose, onCreate }) {
 
-    // ✅ Initial values (for reset)
+    // ✅ Initial state for reset
     const initialState = {
         title: "New Session",
         type: "Study",
         goals: [],
-        newGoal: "",
         hours: "01",
         minutes: "30",
     };
@@ -36,19 +35,21 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
     const [title, setTitle] = useState(initialState.title);
     const [type, setType] = useState(initialState.type);
     const [goals, setGoals] = useState(initialState.goals);
-    const [newGoal, setNewGoal] = useState(initialState.newGoal);
+    const [inputVisible, setInputVisible] = useState(false); // ✅ controls goal input field visibility
+    const [newGoal, setNewGoal] = useState("");
     const [hours, setHours] = useState(initialState.hours);
     const [minutes, setMinutes] = useState(initialState.minutes);
 
     const [editingIndex, setEditingIndex] = useState(null);
     const [editingText, setEditingText] = useState("");
 
-    // ✅ Reset popup
+    // ✅ Reset everything
     const resetPopup = () => {
         setTitle(initialState.title);
         setType(initialState.type);
         setGoals(initialState.goals);
-        setNewGoal(initialState.newGoal);
+        setInputVisible(false);
+        setNewGoal("");
         setHours(initialState.hours);
         setMinutes(initialState.minutes);
         setEditingIndex(null);
@@ -60,13 +61,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
         onClose();
     };
 
-    const addGoal = () => {
-        if (newGoal.trim() !== "" && goals.length < 3) {
-            setGoals([...goals, newGoal]);
-            setNewGoal("");
-        }
-    };
-
+    // ✅ Save session
     const handleCreate = () => {
         onCreate({
             title,
@@ -76,22 +71,24 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
             status: "planned",
             createdAt: Date.now(),
         });
+
         resetPopup();
         onClose();
     };
 
-    // ✅ Time validation
-    const validateHours = (value) => {
-        if (value < 0) return "00";
-        if (value > 24) return "24";
-        return value.toString().padStart(2, "0");
+    // ✅ Add new goal
+    const addGoal = () => {
+        if (newGoal.trim() === "") return;
+
+        const updated = [...goals, newGoal];
+        setGoals(updated);
+        setNewGoal("");
+        setInputVisible(false); // ✅ CLOSE the input field after saving
     };
 
-    const validateMinutes = (value) => {
-        if (value < 0) return "00";
-        if (value > 59) return "59";
-        return value.toString().padStart(2, "0");
-    };
+    // ✅ Validate time fields
+    const validateHours = (v) => v < 0 ? "00" : v > 24 ? "24" : v.toString().padStart(2, "0");
+    const validateMinutes = (v) => v < 0 ? "00" : v > 59 ? "59" : v.toString().padStart(2, "0");
 
     return (
         <Dialog
@@ -99,13 +96,16 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
             onClose={handleClose}
             maxWidth="sm"
             fullWidth
+            fullScreen={false}
             PaperProps={{
                 sx: {
                     backgroundColor: "#456ebb",
                     borderRadius: "20px",
                     padding: "20px",
-                    position: "relative",
-                }
+                    width: "100%",
+                    maxWidth: "520px",
+                    margin: "0 auto",
+                },
             }}
         >
 
@@ -113,19 +113,16 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
             <DialogTitle
                 sx={{
                     display: "flex",
-                    alignItems: "center",
                     justifyContent: "space-between",
-                    color: "#fff",
-                    pb: 0,
+                    alignItems: "center",
+                    color: "white",
                 }}
             >
                 <TextField
                     fullWidth
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    variant="outlined"
                     InputProps={{
-                        endAdornment: <EditIcon sx={{ color: "#456ebb" }} />,
                         sx: {
                             backgroundColor: "white",
                             borderRadius: "10px",
@@ -138,14 +135,12 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                         },
                     }}
                 />
-
-                <IconButton onClick={handleClose} sx={{ color: "#fff", ml: 2 }}>
+                <IconButton onClick={handleClose} sx={{ color: "white", ml: 2 }}>
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
 
-            {/* ✅ CONTENT */}
-            <DialogContent sx={{ mt: 2, color: "#fff" }}>
+            <DialogContent sx={{ color: "white" }}>
 
                 {/* ✅ SESSION TYPE */}
                 <Typography sx={{ mt: 1, fontSize: "18px" }}>
@@ -156,41 +151,38 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     value={type}
                     exclusive
                     onChange={(e, newType) => newType && setType(newType)}
-                    sx={{ mt: 1, gap: 2 }}
+                    sx={{ mt: 2, display: "flex", gap: 2 }}
                 >
                     {[
                         { value: "Lecture", icon: <MenuBookIcon /> },
                         { value: "Study", icon: <SchoolIcon /> },
-                        { value: "Writing", icon: <EditNoteIcon /> }
+                        { value: "Writing", icon: <EditNoteIcon /> },
                     ].map((item) => (
                         <ToggleButton
                             key={item.value}
                             value={item.value}
                             sx={{
-                                borderRadius: "50px",
-                                px: 2,
-                                py: 1,
+                                borderRadius: "999px !important",
+                                padding: "8px 22px",
+                                minWidth: "130px",
                                 border: "2px solid #456ebb",
                                 backgroundColor: "white",
                                 color: "#2e2e2e",
-                                fontWeight: 500,
 
-                                // ✅ Correct fix: override selected color
                                 "&.Mui-selected": {
                                     backgroundColor: "#14B8A6 !important",
                                     color: "#ffffff !important",
-                                    borderColor: "#14B8A6 !important"
+                                    borderColor: "#14B8A6 !important",
                                 },
                                 "&.Mui-selected:hover": {
                                     backgroundColor: "#0E8F81 !important",
                                 },
-
                                 "&:hover": {
-                                    backgroundColor: "#f2f6ff",
-                                }
+                                    backgroundColor: "#f3f3f3",
+                                },
                             }}
                         >
-                            {item.icon} &nbsp; {item.value}
+                            {item.icon}&nbsp;{item.value}
                         </ToggleButton>
                     ))}
                 </ToggleButtonGroup>
@@ -200,8 +192,8 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     My goals for this session are...
                 </Typography>
 
-                {/* ✅ LIST OF GOALS */}
-                <Stack sx={{ mt: 1 }} spacing={1}>
+                {/* ✅ Render existing goals */}
+                <Stack spacing={1} sx={{ mt: 2 }}>
                     {goals.map((g, i) => (
                         <Box
                             key={i}
@@ -218,6 +210,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
 
                             {editingIndex === i ? (
                                 <TextField
+                                    autoFocus
                                     value={editingText}
                                     onChange={(e) => setEditingText(e.target.value)}
                                     onKeyDown={(e) => {
@@ -228,11 +221,11 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                                             setEditingIndex(null);
                                         }
                                     }}
-                                    size="small"
                                     sx={{
                                         flexGrow: 1,
                                         "& .MuiInputBase-root": {
-                                            backgroundColor: "#e8f0fe",
+                                            backgroundColor: "#E6F0FF",
+                                            borderRadius: "6px",
                                         },
                                     }}
                                 />
@@ -241,24 +234,26 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                             )}
 
                             <EditIcon
-                                sx={{ color: "#14B8A6", cursor: "pointer", ml: 1 }}
                                 onClick={() => {
                                     setEditingIndex(i);
                                     setEditingText(g);
                                 }}
+                                sx={{ color: "#14B8A6", cursor: "pointer", ml: 1 }}
                             />
                         </Box>
                     ))}
                 </Stack>
 
-                {/* ✅ NEW GOAL INPUT (hidden when 3 goals exist) */}
-                {goals.length < 3 && (
+                {/* ✅ INPUT FIELD FOR NEW GOAL */}
+                {(inputVisible || goals.length === 0) && goals.length < 3 && (
                     <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
                         <TextField
                             fullWidth
+                            autoFocus
                             placeholder="Write your goal here..."
                             value={newGoal}
                             onChange={(e) => setNewGoal(e.target.value)}
+                            onKeyDown={(e) => e.key === "Enter" && addGoal()}
                             InputProps={{
                                 endAdornment: <EditIcon sx={{ color: "#456ebb" }} />,
                                 sx: {
@@ -268,32 +263,33 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                                 },
                             }}
                         />
+                    </Stack>
+                )}
 
+                {/* ✅ + BUTTON CENTERED */}
+                {goals.length < 3 && (
+                    <Box sx={{ display: "flex", justifyContent: "center", mt: 2 }}>
                         <IconButton
-                            onClick={addGoal}
+                            onClick={() => setInputVisible(true)}
                             sx={{
                                 backgroundColor: "#14b8a6",
                                 color: "white",
-                                width: "40px",
-                                height: "40px",
+                                width: "45px",
+                                height: "45px",
                                 "&:hover": { backgroundColor: "#0e8f81" },
                             }}
                         >
                             <AddIcon />
                         </IconButton>
-                    </Stack>
+                    </Box>
                 )}
 
                 {/* ✅ TIME PICKER */}
-                <Typography sx={{ mt: 4, fontSize: "18px", textAlign: "center" }}>
+                <Typography sx={{ mt: 4, textAlign: "center", fontSize: "18px" }}>
                     I expect this session to take...
                 </Typography>
 
-                <Stack
-                    direction="row"
-                    spacing={2}
-                    sx={{ mt: 2, justifyContent: "center", alignItems: "center" }}
-                >
+                <Stack direction="row" spacing={2} justifyContent="center" sx={{ mt: 2 }}>
                     <TextField
                         type="number"
                         value={hours}
@@ -335,20 +331,22 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     onClick={handleCreate}
                     sx={{
                         backgroundColor: "#14b8a6",
-                        position: "absolute",
-                        bottom: "20px",
-                        right: "20px",
+                        mt: 4,
+                        float: "right",
                         borderRadius: "10px",
                         px: 3,
-                        "&:hover": {
-                            backgroundColor: "#0e8f81",
-                        },
+                        "&:hover": { backgroundColor: "#0e8f81" },
                     }}
                 >
                     Done
                 </Button>
+
             </DialogContent>
         </Dialog>
     );
 }
+
+
+
+
 
