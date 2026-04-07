@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Button, Box, Typography, Paper } from "@mui/material";
 import CreateSessionPopUp from "../components/CreateSessionPopUp/CreateSessionPopUp.jsx"; // adjust path if needed
+import SessionCard from "../components/SessionCard/SessionCard.jsx"; //this is our session card component
+
+// const SessionCard = () => <div>Test</div>; //placeholder in case this doesn't work
 
 export default function CreateSessionTest() {
   const [open, setOpen] = useState(false);
@@ -30,7 +33,7 @@ export default function CreateSessionTest() {
 
         {sessions.map((session, index) => (
           <Paper key={index} sx={{ p: 2, mt: 2, background: "var(--bgAccent)" }}>
-            <pre>{JSON.stringify(session, null, 2)}</pre>
+          <SessionCard session={session} />
           </Paper>
         ))}
       </Box>

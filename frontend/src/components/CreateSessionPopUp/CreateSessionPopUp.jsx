@@ -26,10 +26,10 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
     // ✅ Initial state for reset
     const initialState = {
         title: "New Session",
-        type: "Study",
+        type: "",
         goals: [],
-        hours: "01",
-        minutes: "30",
+        hours: "00",
+        minutes: "00",
     };
 
     const [title, setTitle] = useState(initialState.title);

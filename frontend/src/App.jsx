@@ -5,7 +5,8 @@ import heroImg from './assets/hero.png'
 import './App.css'
 
 
-import CreateSessionTest from "./pages/CreateSessionTest";
+import CreateSessionTest from "./pages/CreateSessionTest.jsx";
+
 
 function App() {
   return <CreateSessionTest />;
