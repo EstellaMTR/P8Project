@@ -4,6 +4,7 @@ import dk.StudyBobby.backend.dto.goalRequests.GoalEditRequest;
 import dk.StudyBobby.backend.dto.goalRequests.GoalDeleteRequest;
 import dk.StudyBobby.backend.dto.goalRequests.GoalCreateRequest;
 import dk.StudyBobby.backend.entities.AcademicSession;
+import dk.StudyBobby.backend.services.GoalService;
 import org.springframework.web.bind.annotation.*;
 import dk.StudyBobby.backend.entities.Goal;
 import dk.StudyBobby.backend.repositories.GoalRepository;
@@ -17,38 +18,35 @@ import java.util.Optional;
 @RequestMapping("/api/goals")
 public class GoalController {
 
-    private final GoalRepository repo;
+//    //private final GoalRepository repo;
+//
+//    //public GoalController(GoalRepository repo) {
+//        this.repo = repo;
+//    }
 
-    public GoalController(GoalRepository repo) {
-        this.repo = repo;
+    private final GoalService service;
+
+    public GoalController(GoalService service) {
+        this.service = service;
     }
 
     // GET all goals
     @GetMapping
     public List<Goal> getAll() {
-        return repo.findAll();
+        return service.getAll();
     }
 
 
     // PUT edit goals
     @PutMapping("/{id}")
-    public Goal edit(@RequestBody GoalEditRequest request) {
-        Optional<Goal> goal = repo.findById(request.getGoalId());
-        if (goal.isEmpty()) throw new RuntimeException("Goal does not exist");
-
-        Goal goalInfo = goal.get();
-        goalInfo.setGoal(request.getGoal());
-
-        goalInfo = repo.save(goalInfo);
-
-        return goalInfo;  // should be HTTP code
-
+    public Goal edit(@RequestBody GoalEditRequest request, @PathVariable Long id) {
+        return service.edit(request);  // should be HTTP code
     }
 
     @DeleteMapping("/{id}")
     public String deleteGoal(@PathVariable Long id) {
-        repo.deleteById(id);
-        return "AcademicSession with ID: " + id + " successfully deleted.";
+        service.delete(id);
+        return "Goal with ID: " + id + " successfully deleted.";
     }
 
 }

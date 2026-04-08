@@ -15,6 +15,8 @@ import dk.StudyBobby.backend.repositories.GoalRepository;
 import dk.StudyBobby.backend.repositories.UserRepository;
 
 // importing tools from pre-existing packages
+import jakarta.validation.constraints.Null;
+import org.apache.commons.lang3.ObjectUtils;
 import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 import java.time.Duration;
@@ -134,31 +136,29 @@ public class AcademicSessionService {
         // get the current state
         SessionState state = session.getState();
 
+        // if state is "NULL" from the start then set state to "CREATED"
+        if (state == null) {
+            session.setState(SessionState.CREATED);
+        }
+
         // if state is "created" then set state to "pending reflecion state"
-        if (state == SessionState.CREATED) {
+        else if (state == SessionState.CREATED) {
             session.setState(SessionState.PENDING_REFLECTION);
-        }
 
+        }
         // if state is "pending reflection state" and then set the state to "archived"
-        if (state == SessionState.CREATED) {
-            session.setState(SessionState.PENDING_REFLECTION);
+        else if (state == SessionState.PENDING_REFLECTION) {
+            session.setState(SessionState.ARCHIVED);
         }
 
-        // if state is archived, then throw that the state cannot be changed from here
-
-
-        session.setState(request.getSessionState());
+        // saving update of Academic Session in Academic Session repo
+        session = sessionRepo.save(session);
 
         // This should be a HTTP code that can be sent back and understood by controller
         return session;
 
     }
 
-    /**
-     * Handling the automatic midnight change of sessionState
-     * @param request passed specific AcademicSession entity
-     * @return ?
-     */
 
     /**
      * Handling the deletion of a whole Academic Session
