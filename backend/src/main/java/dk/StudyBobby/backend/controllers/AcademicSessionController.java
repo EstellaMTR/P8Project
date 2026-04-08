@@ -1,105 +1,72 @@
+// package is the current folder for this file
 package dk.StudyBobby.backend.controllers;
 
+// importing tools from our own packages
+import dk.StudyBobby.backend.dto.academicSessionRequests.ChangeStateRequest;
 import dk.StudyBobby.backend.dto.academicSessionRequests.CreateRequest;
-import dk.StudyBobby.backend.dto.goalRequests.GoalCreateRequest;
-import dk.StudyBobby.backend.entities.Goal;
-import dk.StudyBobby.backend.entities.User;
-import dk.StudyBobby.backend.repositories.GoalRepository;
-import dk.StudyBobby.backend.repositories.UserRepository;
-import org.springframework.web.bind.annotation.*;
+import dk.StudyBobby.backend.services.AcademicSessionService;
 import dk.StudyBobby.backend.entities.AcademicSession;
-import dk.StudyBobby.backend.repositories.AcademicSessionsRepository;
 import dk.StudyBobby.backend.dto.academicSessionRequests.EditRequest;
 
+// importing tools from pre-existing packages
+import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import java.util.Optional;
 
-// controllers are endpoints. They are what we can call from the frontend to do things.
-// They usually talk to the repositories to get data from the database, and then return that data to the frontend.
+
+// Marking the whole class as a CONTROLLER for handling HTTP requests
 @RestController
+// Setting the URL path for the entire controller (API lives here)
 @RequestMapping("/api/academicSessions")
+// Creating class for controlling HTTP requests for Academic Sessions
 public class AcademicSessionController {
 
-    private final UserRepository userRepo;
-    private final AcademicSessionsRepository repo;
-    private final GoalRepository goalRepo;
+    // declaring dependency on service layer for Academic Sessions
+    private final AcademicSessionService service;
 
-    public AcademicSessionController(UserRepository userRepo, AcademicSessionsRepository repo, GoalRepository goalRepo) {
-
-        this.userRepo = userRepo;
-        this.repo = repo;
-        this.goalRepo = goalRepo;
+    // CONSTRUCTOR: Injecting service into controller
+    public AcademicSessionController(AcademicSessionService service) {
+        this.service = service;
     }
 
-    // GET all academic sessions
+    // Asking service to GET all Academic Sessions and return as JSON list
     @GetMapping
     public List<AcademicSession> getAll() {
-        return repo.findAll();
+        return service.getAll();
     }
 
-    // POST create academic session
+    // Taking JSON body from HTTP request and POSTING it into CreateRequest DTO
+    // Then handing the DTO to service
+    // After service has handled it, returning newly created Academic Session
     @PostMapping
-    public AcademicSession create(@RequestBody CreateRequest request) {
-
-        if (request.getGoals() == null || request.getGoals().isEmpty()) {
-            throw new RuntimeException("At least one goal is required");
-        }
-
-        Optional<User> user = userRepo.findById(request.getUserId());
-        if (user.isEmpty()) throw new RuntimeException("User does not exist");
-
-        AcademicSession session = new AcademicSession();
-        session.setUser(user.get());
-        session.setTitle(request.getTitle());
-        session.setSessionType(request.getSessionType());
-        session.setState(request.getState());
-        session.setCreatedAt(java.time.LocalDateTime.now());
-        session.setDuration(java.time.Duration.ofMinutes(request.getDuration()));
-
-        session = repo.save(session); // must save first to get ID
-
-        for (GoalCreateRequest g : request.getGoals()) {
-            Goal goal = new Goal();
-            goal.setGoal(g.getGoal());
-            goal.setAcademicSession(session);
-            goalRepo.save(goal);
-        }
-
-        return session; // should be HTTP code
+    public AcademicSession create(@RequestBody CreateRequest request) { // @RequestBody pulls data out of JSON body
+        return service.create(request);
     }
-    
-    @PutMapping("/{id}")
+
+    // Taking changed JSON body from HTTP request and PUTTING it into EditRequest DTO
+    // Then handing the DTO to service
+    @PutMapping
     public AcademicSession edit(@RequestBody EditRequest request) {
-        Optional<AcademicSession> academicSession = repo.findById(request.getAcademicSessionId());
-        if (academicSession.isEmpty()) throw new RuntimeException("Academic session does not exist");
+        // After service has handled it, returning changed Academic Session
+        return service.edit(request);
+    }
+    // SHOULD WE ALSO HAVE ID AS PARAMETER ABOVE?? //
 
-        AcademicSession session = academicSession.get();
-        session.setTitle(request.getTitle());
-        session.setSessionType(request.getSessionType());
-        session.setState(request.getState());
-        session.setDuration(java.time.Duration.ofMinutes(request.getDuration()));
-
-        session = repo.save(session);
-
-        for (GoalCreateRequest g : request.getGoals()) {
-            Goal goal = new Goal();
-            goal.setGoal(g.getGoal());
-            goal.setAcademicSession(session);
-            goalRepo.save(goal);
-        }
-
-        return session;  // should be HTTP code
-
+    // V V V V !!!NOT DONE!!! V V V V //
+    // Capturing the ID of the Academic Session from the HTTP request to identify specific session
+    // Taking changed JSON body from HTTP request and PUTTING it into ChangeStateRequest DTO
+    // Then handing the DTO to service
+    @PutMapping("/{id}/changeState")
+    public AcademicSession edit(@RequestBody ChangeStateRequest request, @PathVariable Long id) {
+        // After service has handled it, returning changed Academic Session
+        return service.changeState(request);
     }
 
+    // Capturing the ID of the Academic Session from the HTTP request to identify specific session
     @DeleteMapping("/{id}")
-        public String deleteAcademicSession(@PathVariable Long id) {
-            repo.deleteById(id);
-            return "AcademicSession with " + id + " successfully deleted.";
-        }
+    public String delete(@PathVariable Long id) {
+        // Then DELETING the Academic Session through the service
+        service.delete(id);
+        // ...and returning success message
+        return "AcademicSession with ID:" + id + " successfully deleted.";
     }
-
-
-
-
-
+}

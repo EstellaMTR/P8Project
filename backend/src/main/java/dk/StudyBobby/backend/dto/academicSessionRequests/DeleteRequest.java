@@ -1,6 +1,10 @@
+
+// WE ARE NOT EVEN USING DELETE REQUEST?
+// SHOULD WE DELETE DELETE REQUEST!? XD
+
+// package is the current folder for this file
 package dk.StudyBobby.backend.dto.academicSessionRequests;
 
-import java.util.List;
 
 public class DeleteRequest {
 

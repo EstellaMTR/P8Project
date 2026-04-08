@@ -1,24 +1,16 @@
+// package is the current folder for this file
 package dk.StudyBobby.backend.dto.academicSessionRequests;
 
+// importing tools from our own packages
 import dk.StudyBobby.backend.enums.SessionState;
 
-import java.util.List;
-
+// Creating class for transferring data for changing the state of existing Academic Session
 public class ChangeStateRequest {
-
-    private Long academicSessionId; // we only need the session ID to be able to delete it from the database
-    private Long userId;
+    // INSTANCE VARIABLES (the data that is needed for this DTO)
+    private Long academicSessionId;
     private SessionState state;
- 
-    // getters & setters
-    public Long getUserId() {
-        return userId;
-    }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
+    // METHODS - GETTERS AND SETTERS
     public Long getAcademicSessionId() {
         return academicSessionId;
     }

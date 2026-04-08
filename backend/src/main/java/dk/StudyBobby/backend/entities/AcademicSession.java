@@ -26,9 +26,9 @@ public class AcademicSession {
 
     private String title;
 
-    private SessionType sessionType; // should be enum
+    private SessionType sessionType; // enum
     
-    private SessionState state; // should also be enum
+    private SessionState state; // enum
 
     private Duration duration;
 

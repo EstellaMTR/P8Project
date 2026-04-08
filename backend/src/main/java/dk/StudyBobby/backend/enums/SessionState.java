@@ -1,7 +1,7 @@
 package dk.StudyBobby.backend.enums;
 
 public enum SessionState {
-    PLANNED,
-    ACTIVE,
-    COMPLETED
+    CREATED,
+    PENDING_REFLECTION,
+    ARCHIVED
 }

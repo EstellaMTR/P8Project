@@ -1,6 +1,7 @@
 package dk.StudyBobby.backend.controllers;
 
 import dk.StudyBobby.backend.dto.goalRequests.GoalEditRequest;
+import dk.StudyBobby.backend.dto.goalRequests.GoalDeleteRequest;
 import dk.StudyBobby.backend.dto.goalRequests.GoalCreateRequest;
 import dk.StudyBobby.backend.entities.AcademicSession;
 import org.springframework.web.bind.annotation.*;
@@ -28,11 +29,6 @@ public class GoalController {
         return repo.findAll();
     }
 
-    // POST create goal
-//    @PostMapping
-//    public Goal create(@RequestBody Goal goal) {
-//        return repo.save(goal);
-//    }
 
     // PUT edit goals
     @PutMapping("/{id}")
@@ -42,11 +38,17 @@ public class GoalController {
 
         Goal goalInfo = goal.get();
         goalInfo.setGoal(request.getGoal());
-//        goalInfo.setAcademicSessionId(request.getAcademicSessionId());
 
         goalInfo = repo.save(goalInfo);
 
         return goalInfo;  // should be HTTP code
 
     }
+
+    @DeleteMapping("/{id}")
+    public String deleteGoal(@PathVariable Long id) {
+        repo.deleteById(id);
+        return "AcademicSession with ID: " + id + " successfully deleted.";
+    }
+
 }

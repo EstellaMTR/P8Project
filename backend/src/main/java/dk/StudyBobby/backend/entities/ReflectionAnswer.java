@@ -31,6 +31,14 @@ public class ReflectionAnswer {
     }
 
     // Getters & setters
+    public Goal getGoal() {
+        return goal;
+    }
+
+    public void setGoal(Goal goal) {
+        this.goal = goal;
+    }
+
     public Long getGoalId() { return goalId; }
 
     public String getReflectionAnswer1() { return reflectionAnswer1; }
