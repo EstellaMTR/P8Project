@@ -373,7 +373,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     ))}
                 </Stack>
 
-                // The input field for adding new goals is shown if the user has clicked the "+" button or if there are no goals yet. It also limits the number of goals to 3.
+                {/* The input field for adding new goals is shown if the user has clicked the "+" button or if there are no goals yet. It also limits the number of goals to 3. */}
                 {(inputVisible || goals.length === 0) && goals.length < 3 && (
                     <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
                         <TextField
@@ -401,7 +401,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     </Stack>
                 )}
 
-                // The "+" button for adding new goals is only shown if there are less than 3 goals, and it encourages the user to add more goals if they have already added at least one.
+                {/* The "+" button for adding new goals is only shown if there are less than 3 goals, and it encourages the user to add more goals if they have already added at least one. */}
                 {goals.length < 3 && (
                     <Box sx={{ textAlign: "center", mt: 2 }}>
                         {goals.length >= 1 && (
@@ -425,7 +425,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     </Box>
                 )}
 
-                // Duration selection section, where the user can specify how long they expect the session to take by entering hours and minutes. It includes validation to ensure the values are within reasonable limits.
+                {/* Duration selection section, where the user can specify how long they expect the session to take by entering hours and minutes. It includes validation to ensure the values are within reasonable limits. */}
                 <Typography
                     sx={{
                         mt: 4,
@@ -437,7 +437,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     I expect this session to take...
                 </Typography>
 
-                // Labels for the hours and minutes input fields
+                {/* Labels for the hours and minutes input fields */}
                 <Box
                     sx={{
                         display: "flex",
@@ -457,7 +457,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     justifyContent="center"
                     sx={{ mt: 1 }}
                 >
-                    // The TextField components for hours and minutes are styled to look like a cohesive time input, with centered text and a larger font for better visibility. The onChange handlers ensure that the values are validated and formatted correctly.
+                    {/* The TextField components for hours and minutes are styled to look like a cohesive time input, with centered text and a larger font for better visibility. The onChange handlers ensure that the values are validated and formatted correctly. */}
                     <TextField
                         type="number"
                         value={hours}
@@ -495,7 +495,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     />
                 </Stack>
 
-                // The "Done" button at the bottom of the popup triggers the handleCreate function, which validates the input and creates the session if everything is in order. It is styled to stand out and encourage the user to complete the session creation process.
+                {/* The "Done" button at the bottom of the popup triggers the handleCreate function, which validates the input and creates the session if everything is in order. It is styled to stand out and encourage the user to complete the session creation process. */}
                 <Button
                     variant="contained"
                     onClick={handleCreate}
