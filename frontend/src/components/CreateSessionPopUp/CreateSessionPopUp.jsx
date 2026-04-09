@@ -18,21 +18,16 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
-import SchoolIcon from "@mui/icons-material/School";
 import FlagIcon from '@mui/icons-material/Flag';
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import PsychologyIcon from "@mui/icons-material/Psychology";
-import FlagIcon from "@mui/icons-material/Flag";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
 // To make sure values can change without error, we need to set up state for each input field and goal list
-import { useState } from "react";
-
-// Defines and exports a React component that takes the props open, onClose, and onCreate as its inputs
-export default function CreateSessionPopUp({ open, onClose, onCreate }) {
 import { useState, useEffect } from "react";
 
+// Defines and exports a React component that takes the props open, onClose, and onCreate as its inputs
 export default function CreateSessionPopUp({ open, onClose, onCreate, session }) {
 
     // Initial state for all fields - used for resetting the popup after creation or closing
@@ -122,7 +117,17 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, session })
 
         onCreate({
             title: title.trim(),
-    // ✅ Save session
+            type,
+            goals,
+            duration: { hours, minutes },
+            status: "planned",
+            createdAt: Date.now(),
+        });
+        resetPopup();
+        onClose();
+    };
+
+    // Save session
     const handleSave = () => {
         const data = {
             id: session?.id || crypto.randomUUID(),
@@ -343,7 +348,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, session })
                         >
                             <FlagIcon sx={{ mr: 1, color: "#456ebb" }} />
 
-                            // If the current goal is being edited, show a TextField. Otherwise, show the goal text with an edit icon.
+                            {/* If the current goal is being edited, show a TextField. Otherwise, show the goal text with an edit icon. */}
                             {editingIndex === i ? (
                                 <TextField
                                     autoFocus
@@ -382,7 +387,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, session })
                                 </Typography>
                             )}
 
-                            // The edit icon allows the user to click and edit an existing goal. When clicked, it sets the editing index and text to the current goal.
+                            {/* The edit icon allows the user to click and edit an existing goal. When clicked, it sets the editing index and text to the current goal. */}
                             <EditIcon
                                 onClick={() => {
                                     setEditingIndex(i);
