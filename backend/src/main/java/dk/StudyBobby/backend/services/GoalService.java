@@ -17,11 +17,20 @@ public class GoalService  {
         this.goalRepo = goalRepo;
     }
 
-    // GET SERVICE
+    // GET ALL SERVICE
     public List<Goal> getAll() {
         return goalRepo.findAll();
     }
 
+    // GET ALL BY USER ID SERVICE
+    public List<Goal> getByUserId(Long userId) {
+        return goalRepo.findByAcademicSession_UserId(userId);
+    }
+
+    // GET ALL BY ACADEMIC SESSION ID SERVICE
+    public List<Goal> getByAcademicSessionId(Long sessionId) {
+        return goalRepo.findByAcademicSession_Id(sessionId);
+    }
 
     // EDIT SERVICE
     public Goal edit(GoalEditRequest request) {

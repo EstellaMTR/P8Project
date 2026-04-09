@@ -7,6 +7,7 @@ import java.time.LocalDateTime;
 import jakarta.persistence.Column;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.Duration;
+import java.util.List;
 
 @Entity // An entity is the same as a table in the database, and each instance of this class will be a row in that table.
 public class AcademicSession {
@@ -23,6 +24,9 @@ public class AcademicSession {
     @Column(columnDefinition = "TIMESTAMP")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
+
+    @OneToMany(mappedBy = "academicSession", cascade = CascadeType.ALL)
+    private List<Goal> goals;
 
     private String title;
 
@@ -51,6 +55,14 @@ public class AcademicSession {
 
     public LocalDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public List<Goal> getGoals() {
+        return goals;
+    }
+
+    public void setGoals(List<Goal> goals) {
+        this.goals = goals;
+    }
 
     public String getTitle() { return title; }
     public void setTitle(String title) { this.title = title; }

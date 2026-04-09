@@ -36,6 +36,17 @@ public class GoalController {
         return service.getAll();
     }
 
+    // GET all goals related to a specific user
+    @GetMapping("/user/{userId}")
+    public List<Goal> getByUserId(@PathVariable Long userId){
+        return service.getByUserId(userId);
+    }
+
+    // GET all goals related to a specific academic session
+    @GetMapping("/academic-session/{sessionId}")
+    public List<Goal> getByAcademicSessionId(@PathVariable Long sessionId){
+        return service.getByAcademicSessionId(sessionId);
+    }
 
     // PUT edit goals
     @PutMapping("/{id}")

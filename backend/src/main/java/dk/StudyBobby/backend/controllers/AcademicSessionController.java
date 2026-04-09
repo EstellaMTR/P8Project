@@ -34,6 +34,11 @@ public class AcademicSessionController {
         return service.getAll();
     }
 
+    // GET all academic sessions by userId
+    @GetMapping("/user/{userId}")
+    public List<AcademicSession> getByUserId(Long userId) {
+        return service.getByUserId(userId);
+    }
 
     // Taking JSON body from HTTP request and POSTING it into CreateRequest DTO
     // Then handing the DTO to service

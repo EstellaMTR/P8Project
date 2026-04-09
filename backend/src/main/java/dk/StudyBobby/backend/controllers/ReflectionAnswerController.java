@@ -32,9 +32,15 @@ public class ReflectionAnswerController {
     }
 
     // GET all reflection answers related to a specific user
-    @GetMapping("/{userId}")
+    @GetMapping("/user/{userId}")
     public List<ReflectionAnswer> getByUserId(@PathVariable Long userId) {
         return service.getByUserID(userId);
+    }
+
+    // GET all reflection answers related to a specific goal
+    @GetMapping("/goal/{goalId}")
+    public List<ReflectionAnswer> getByGoalId(@PathVariable Long goalId) {
+        return service.getByGoalID(goalId);
     }
 
     // POST create reflection answer    

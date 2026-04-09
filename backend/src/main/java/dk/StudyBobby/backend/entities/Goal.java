@@ -1,5 +1,6 @@
 package dk.StudyBobby.backend.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 @Entity // An entity is the same as a table in the database, and each instance of this class will be a row in that table.
@@ -12,6 +13,7 @@ public class Goal {
 
     @ManyToOne
     @JoinColumn(name = "academicSessionId")  // Foreign key column name
+    @JsonIgnore
     private AcademicSession academicSession;
 
     private String goal;

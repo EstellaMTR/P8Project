@@ -21,6 +21,7 @@ import org.hibernate.Session;
 import org.springframework.stereotype.Service;
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -76,13 +77,18 @@ public class AcademicSessionService {
         session = sessionRepo.save(session);
 
         // For-each Loop that sets each goal, depending on how many goals are passed from DTO
+        List<Goal> goals = new ArrayList<>();
+
         for (GoalCreateRequest g : request.getGoals()) {
             Goal goal = new Goal();
             goal.setGoal(g.getGoal());
-            goal.setAcademicSession(session); // Should this not be setAcademicSessionId?
-            // For each set goal, save it in the goal repo
-            goalRepo.save(goal);
+            goal.setAcademicSession(session);
+
+            goals.add(goal);
         }
+
+        session.setGoals(goals);
+        sessionRepo.save(session); // cascade saves goals
 
         // This should be a HTTP code that can be sent back and understood by controller
         return session;
@@ -174,5 +180,13 @@ public class AcademicSessionService {
      */
     public List<AcademicSession> getAll() {
         return sessionRepo.findAll();
+    }
+
+    /**
+     * Handling the fetching of Academic sessions by UserId
+     * @return list of all Academic Sessions in Academic Session repo by UserId
+     */
+    public List<AcademicSession> getByUserId(Long userId) {
+        return sessionRepo.findByUser_Id(userId);
     }
 }

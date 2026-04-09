@@ -64,4 +64,9 @@ public class ReflectionAnswerService {
         return reflectRepo.findByGoal_AcademicSession_UserId(userId);
     }
 
+    // GET BY GOAL ID SERVICE
+    public List<ReflectionAnswer> getByGoalID(Long goalId) {
+        return reflectRepo.findByGoal_Id(goalId);
+    }
+
 }
