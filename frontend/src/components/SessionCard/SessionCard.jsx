@@ -1,6 +1,5 @@
 import { Card, CardContent, Typography, Button, IconButton, CardHeader, Collapse, CardActions } from '@mui/material';
 
-
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ArrowDropUp';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -32,8 +31,29 @@ export default function SessionCard({ session }) {
   if (!session) return null; // safety guard
 
   return (
-    <Card variant="h1" sx={{maxWidth: 345}}> {/*figure out how to make adjustable for screen/what size the card should be*/}
+    <Card 
+        sx={{
+            borderRadius: "16px",
+            boxShadow: "0px 4px 12px rgba(0,0,0,0,08)",
+            p: 1.5,
+            width: "100%",
+        }}
+    >
         <CardHeader
+            sx={{
+                pb: 0.5,
+            }}
+            titleTypographyProps={{ 
+                fontWeight: 600, 
+                fontSize: "1.1rem",
+                lineHeight: 1.2, 
+            }}
+            subheaderTypographyProps={{ 
+                color: "text.secondary" 
+                fontSize
+            }}
+            title={session.title}
+            subheader={session.type}
             action={
                 <>
                     <IconButton aria-label="edit session">
@@ -49,26 +69,52 @@ export default function SessionCard({ session }) {
                     <ExpandMoreIcon/>
                 </ExpandMore>
             </>
-        }
-        title={session.title}
-        subheader={session.type}
+        }    
     />
         <Collapse in={expanded}>
-            <CardContent>
-                <Typography variant="h6" sx={{ marginBottom: 2}}>
+            <CardContent sx={{ pt: 0 }}>
+                <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
                     Goals:
                 </Typography>
 
                 {session.goals.map((goal, index) => (
-                        <Typography key={index} variant="body2" sx={{ mb: 0.5}}>
-                            * {goal}
+                        <Typography 
+                        key={index} 
+                        variant="body2" 
+                        sx={{ mb: 0.8, lineHeight: 1.4 }}
+                        >
+                            • {goal}
                         </Typography>
                 ))}
-            
-                    
-                <Typography variant="body2" sx={{ marginBottom: 2}}>Est. time:</Typography>
-            </CardContent>
+                 
+                <Typography 
+                variant="body2" 
+                sx={{ 
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 1,
+                    mt: 2,
+                    color: "text.secondary",
+                    }}
+                >
+                    <ClockIcon fontSize="small" />
+                    {session.estimatedTIme}
+                    </Typography>
+                </CardContent>
             <CardActions>
+                <Button
+                fullWidth
+                variant="contained"
+                sx={{
+                    bgcolor: "success.main",
+                    textTransform: "non",
+                    fontWeight: 600,
+                    borderRadius: 2,
+                    "&:hover": { bgcolor: "success.dark" },
+                }}
+                >
+                    {session.completed ? "Start Reflection" : "Finish"}
+                </Button>
             </CardActions>
         </Collapse>
     </Card> 
