@@ -18,6 +18,8 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
+import SchoolIcon from "@mui/icons-material/School";
+import FlagIcon from '@mui/icons-material/Flag';
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import PsychologyIcon from "@mui/icons-material/Psychology";
@@ -29,6 +31,9 @@ import { useState } from "react";
 
 // Defines and exports a React component that takes the props open, onClose, and onCreate as its inputs
 export default function CreateSessionPopUp({ open, onClose, onCreate }) {
+import { useState, useEffect } from "react";
+
+export default function CreateSessionPopUp({ open, onClose, onCreate, session }) {
 
     // Initial state for all fields - used for resetting the popup after creation or closing
     const initialState = {
@@ -58,6 +63,20 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
     const closeErrorModal = () => setErrorOpen(false);
 
     // Resets all fields and states to their initial values when the popup is closed or after a session is created
+    useEffect(() => {
+    if (session) {
+        setTitle(session.title);
+        setType(session.type);
+        setGoals(session.goals);
+        setHours(session.duration?.hours || "00");
+        setMinutes(session.duration?.minutes || "00");
+    } else {
+        // If no session is passed, reset to initial state (create mode)
+        resetPopup();
+    }
+}, [session]);
+
+    // ✅ Reset everything
     const resetPopup = () => {
         setTitle(initialState.title);
         setType(initialState.type);
@@ -103,13 +122,19 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
 
         onCreate({
             title: title.trim(),
+    // ✅ Save session
+    const handleSave = () => {
+        const data = {
+            id: session?.id || crypto.randomUUID(),
+            title,
             type,
             goals,
             duration: { hours, minutes },
-            status: "planned",
-            createdAt: Date.now(),
-        });
+            status: session?.status || "planned",
+            createdAt: session?.createdAt || Date.now(),
+        };
 
+        onCreate(data);   // parent decides if it's create or update
         resetPopup();
         onClose();
     };
@@ -498,7 +523,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                 {/* The "Done" button at the bottom of the popup triggers the handleCreate function, which validates the input and creates the session if everything is in order. It is styled to stand out and encourage the user to complete the session creation process. */}
                 <Button
                     variant="contained"
-                    onClick={handleCreate}
+                    onClick={handleSave}
                     sx={{
                         backgroundColor: "#14B8A6",
                         mt: 4,
