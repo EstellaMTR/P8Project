@@ -16,12 +16,13 @@ import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import EditIcon from "@mui/icons-material/Edit";
 import SchoolIcon from "@mui/icons-material/School";
+import FlagIcon from '@mui/icons-material/Flag';
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export default function CreateSessionPopUp({ open, onClose, onCreate }) {
+export default function CreateSessionPopUp({ open, onClose, onCreate, session }) {
 
     // ✅ Initial state for reset
     const initialState = {
@@ -43,6 +44,19 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
     const [editingIndex, setEditingIndex] = useState(null);
     const [editingText, setEditingText] = useState("");
 
+    useEffect(() => {
+    if (session) {
+        setTitle(session.title);
+        setType(session.type);
+        setGoals(session.goals);
+        setHours(session.duration?.hours || "00");
+        setMinutes(session.duration?.minutes || "00");
+    } else {
+        // If no session is passed, reset to initial state (create mode)
+        resetPopup();
+    }
+}, [session]);
+
     // ✅ Reset everything
     const resetPopup = () => {
         setTitle(initialState.title);
@@ -62,16 +76,18 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
     };
 
     // ✅ Save session
-    const handleCreate = () => {
-        onCreate({
+    const handleSave = () => {
+        const data = {
+            id: session?.id || crypto.randomUUID(),
             title,
             type,
             goals,
             duration: { hours, minutes },
-            status: "planned",
-            createdAt: Date.now(),
-        });
+            status: session?.status || "planned",
+            createdAt: session?.createdAt || Date.now(),
+        };
 
+        onCreate(data);   // parent decides if it's create or update
         resetPopup();
         onClose();
     };
@@ -206,7 +222,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                                 color: "#000",
                             }}
                         >
-                            <SchoolIcon sx={{ mr: 1, color: "#456ebb" }} />
+                            <FlagIcon sx={{ mr: 1, color: "#456ebb" }} />
 
                             {editingIndex === i ? (
                                 <TextField
@@ -328,7 +344,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                 {/* ✅ DONE BUTTON */}
                 <Button
                     variant="contained"
-                    onClick={handleCreate}
+                    onClick={handleSave}
                     sx={{
                         backgroundColor: "#14b8a6",
                         mt: 4,
