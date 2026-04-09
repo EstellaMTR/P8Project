@@ -111,76 +111,82 @@ export default function SessionCard({ session, onEdit, onDelete, onFinish }) {
                     </Box>
                 ))}
 
-                <Typography sx={{ fontWeight: 600, mt: 2 }}>Est. Time</Typography>
-
-                <Typography sx={{ 
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 1,
-                    mt: 1,
-                    color: "text.secondary" //figure out how to make it the right color
-                    }}
-                >
-                    <ClockIcon fontSize="small" />
-                    {session.estimatedTime}
+                <Typography sx={{ mb: 1, fontWeight: 600 }}>
+                    Estimated time:
                 </Typography>
-            
+
             <CardActions 
                 sx={{ 
-                    px: 2.5, 
-                    pb: 2, 
-                    pt: 0,
                     display: "flex",
-                    justifyContent: "flex-end",
+                    justifyContent: "space-between",
                     alignItems: "center",
-                    gap: 1.5, 
+                }}
+            >
+                <Box
+                    sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        bgcolor: "#456EBB",
+                        color: "#F4F7FF",
+                        borderRadius: "12px",
+                        px: 1.5,
+                        py: 1,
+                        width: "fit-content",
                     }}
                 >
-                
-                {!session.completed && (
+                <ClockIcon sx={{ fontSize: 18 }} />
+                <Typography sx={{ fontSize: "0.95rem", fontWeight: 500 }}>
+                    {session.estimatedTime}
+                </Typography>
+            </Box>
+
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+                    {!session.completed && (
+                        <Button
+                            variant="contained"
+                            onClick={() => setConfirmDeleteOpen(true)}
+                                sx={{
+                                    minWidth: "48px",
+                                    height: "48px",
+                                    bgcolor: "#14BBA6",
+                                    color: "#F4F7FF",
+                                    borderRadius: "12px",
+                                    p: 0,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    boxShadow: "0px 2px 4px rgba(0,0,0,0.15)",
+                                    transition: "all 0.2s ease",
+                                    "&hover": { 
+                                        bgcolor: "#14B8A6", 
+                                        boxShadow: "0px 4px 8px rgba(0,0,0,0.25)",
+                                    }
+                                }}
+                            >
+                                <DeleteIcon/>
+                            </Button>
+                    )}
+
                     <Button
                         variant="contained"
-                        onClick={() => setConfirmDeleteOpen(true)}
-                            sx={{
-                                minWidth: "48px",
-                                height: "48px",
-                                bgcolor: "#14BBA6",
-                                color: "#F4F7FF",
-                                borderRadius: "12px",
-                                p: 0,
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "center",
-                                boxShadow: "0px 2px 4px rgba(0,0,0,0.15)",
-                                transition: "all 0.2s ease",
-                                "&hover": { 
-                                    bgcolor: "#14B8A6", 
-                                    boxShadow: "0px 4px 8px rgba(0,0,0,0.25)",
-                                }
-                            }}
-                        >
-                            <DeleteIcon/>
-                        </Button>
-                )}
-
-                <Button
-                variant="contained"
-                onClick={() => onFinish(session.id)}
-                sx={{
-                    minWidth: "48px",
-                    height: "48px",
-                    bgcolor: "#14B8A6",
-                    textTransform: "none",
-                    fontWeight: 600,
-                    borderRadius: "12px",
-                    p: 2,
-                    fontSize: "1rem",
-                    "&:hover": { bgcolor: "#14B8A6" }, // hover effect?
-                    boxShadow: "0px 2px 4px rgba(0,0,0,0.15)",
-                }}
-                >
-                    {session.completed ? "Start Reflection" : "Finish"}
-                </Button>
+                        onClick={() => onFinish(session.id)}
+                        sx={{
+                            minWidth: "48px",
+                            height: "48px",
+                            bgcolor: "#14B8A6",
+                            textTransform: "none",
+                            fontWeight: 600,
+                            borderRadius: "12px",
+                            p: 2,
+                            fontSize: "1rem",
+                            "&:hover": { bgcolor: "#14B8A6" }, // hover effect?
+                            boxShadow: "0px 2px 4px rgba(0,0,0,0.15)",
+                        }}
+                    >
+                        {session.completed ? "Start Reflection" : "Finish"}
+                    </Button>
+                </Box>
             </CardActions>
 
             </CardContent>
