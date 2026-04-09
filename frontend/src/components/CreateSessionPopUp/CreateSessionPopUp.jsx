@@ -77,7 +77,8 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
         onClose();
     };
 
-    // Validates that the user has selected a session type and added at least one goal before allowing session creation. If validation fails, it opens an error modal.
+    // Validates that the user has selected a session type and added at least one goal 
+    // before allowing session creation. If validation fails, it opens an error modal.
     const validateBeforeCreate = () => {
         if (type === "" || goals.length === 0) {
             setErrorOpen(true);
@@ -86,8 +87,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
         return true;
     };
 
-    // Adds a new goal to the goals list if the input is not empty, 
-    // then resets the new goal input and hides it
+    // Adds a new goal to the goals list if the input is not empty, then resets the new goal input and hides it
     const addGoal = () => {
         if (newGoal.trim() === "") return;
 
@@ -97,9 +97,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
         setInputVisible(false);
     };
 
-    // Handles the creation of a new session. 
-    // It first validates the input fields, and if validation passes, 
-    // it calls the onCreate function with the new session data, resets the popup, and closes it.
+    // Handles the creation of a new session
     const handleCreate = () => {
         if (!validateBeforeCreate()) return;
 
@@ -116,25 +114,20 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
         onClose();
     };
 
-    // When the user clicks the "+" button to add a new goal, 
-    // this function checks if there's any text in the new goal input. 
+    // When the user clicks the "+" button to add a new goal this function checks if there's any text in the new goal input. 
     // If there is, it adds that goal to the list before showing the input field for the next goal.
     const handlePlusClick = () => {
         if (newGoal.trim() !== "") addGoal();
         setInputVisible(true);
     };
 
-    // These two functions ensure that the hours and minutes inputs stay within valid ranges 
-    // (0-24 for hours, 0-59 for minutes) and are always displayed as two digits (e.g., "01" instead of "1").
+    // Ensures hours and minutes stay within valid ranges and are always 2 digits
     const validateHours = (v) =>
         v < 0 ? "00" : v > 24 ? "24" : v.toString().padStart(2, "0");
 
     const validateMinutes = (v) =>
         v < 0 ? "00" : v > 59 ? "59" : v.toString().padStart(2, "0");
 
-
-    // The JSX returned by this component defines the structure and appearance of the popup dialog, 
-    // including all input fields, buttons, and their associated styles and behaviors.
     return (
         <>
         <Dialog
@@ -154,7 +147,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                 },
             }}
         >
-            // The Dialog component from MUI is used to create a modal popup.
+            {/* The Dialog component from MUI is used to create a modal popup. */}
             <DialogTitle
                 sx={{
                     display: "flex",
@@ -170,8 +163,6 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                         if (e.target.value.length <= 30) setTitle(e.target.value);
                     }}
                     placeholder="New Session"
-
-                    // InputProps is used to style the TextField 
                     InputProps={{
                         sx: {
                             backgroundColor: "white",
@@ -181,13 +172,13 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                                 textAlign: "center",
                                 fontSize: "20px",
                                 fontWeight: "bold",
-                                color: title === "" ? "#888" : "#000", // ✅ grey when empty
+                                color: title === "" ? "#888" : "#000",
                             },
                         },
                     }}
                 />
 
-                // The close button in the top right corner of the popup, styled as a small circle with a white "X" icon.
+                {/* The close button */}
                 <IconButton
                     onClick={handleClose}
                     sx={{
@@ -205,8 +196,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
 
             <DialogContent sx={{ color: "white" }}>
 
-                // The session type selection section, 
-                // which includes a title with a tooltip and a group of toggle buttons for selecting the session type.
+                {/* Session type selection */}
                 <Box
                     sx={{
                         display: "flex",
@@ -228,7 +218,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     </Tooltip>
                 </Box>
 
-                // The ToggleButtonGroup component is used to create a group of toggle buttons for selecting the session type.
+                {/* The ToggleButtonGroup component is used to create a group of toggle buttons for selecting the session type */}
                 <ToggleButtonGroup
                     value={type}
                     exclusive
@@ -257,8 +247,6 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                                 fontWeight: 500,
                                 border: "2px solid #456ebb",
 
-                                // To override MUI's default styles 
-                                // and ensure the buttons are fully rounded with proper borders between them
                                 borderRadius: "999px !important",
                                 "&.MuiToggleButton-root": {
                                     borderRadius: "999px !important",
@@ -272,8 +260,6 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                                     borderRight: "2px solid #456ebb",
                                 },
 
-                                // Styles for the selected state of the toggle buttons, 
-                                // ensuring a distinct look when a button is selected
                                 "&.Mui-selected": {
                                     backgroundColor: "#14B8A6 !important",
                                     color: "#ffffff !important",
@@ -283,8 +269,6 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                                     backgroundColor: "#0E8F81 !important",
                                 },
 
-                                // Styles for the hover state of unselected buttons, 
-                                // providing visual feedback when the user hovers over them
                                 "&:hover": {
                                     backgroundColor: "#f3f3f3",
                                 },
@@ -295,8 +279,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     ))}
                 </ToggleButtonGroup>
 
-                // The goals section, which includes a title with a tooltip, 
-                a list of existing goals that can be edited, and an input field for adding new goals.
+                {/* Goals section - which includes a title with a tooltip, a list of existing goals that can be edited, and an input field for adding new goals.*/}
                 <Box
                     sx={{
                         display: "flex",
@@ -317,9 +300,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                         />
                     </Tooltip>
                 </Box>
-            
 
-                // The list of existing goals, which are displayed in a stack with an edit icon next to each goal.
                 <Stack spacing={1} sx={{ mt: 2 }}>
                     {goals.map((g, i) => (
                         <Box
@@ -337,8 +318,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                         >
                             <FlagIcon sx={{ mr: 1, color: "#456ebb" }} />
 
-                            // If the user is currently editing this goal, show a TextField to edit it. 
-                            Otherwise, show the goal text.
+                            // If the current goal is being edited, show a TextField. Otherwise, show the goal text with an edit icon.
                             {editingIndex === i ? (
                                 <TextField
                                     autoFocus
@@ -377,7 +357,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                                 </Typography>
                             )}
 
-                            // The edit icon next to each goal, which allows the user to edit the goal when clicked.
+                            // The edit icon allows the user to click and edit an existing goal. When clicked, it sets the editing index and text to the current goal.
                             <EditIcon
                                 onClick={() => {
                                     setEditingIndex(i);
@@ -393,8 +373,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     ))}
                 </Stack>
 
-                // The input field for adding new goals, which is shown if the inputVisible state is true or if there are no goals yet, 
-                and hidden if there are already 3 goals.
+                // The input field for adding new goals is shown if the user has clicked the "+" button or if there are no goals yet. It also limits the number of goals to 3.
                 {(inputVisible || goals.length === 0) && goals.length < 3 && (
                     <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
                         <TextField
@@ -422,7 +401,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     </Stack>
                 )}
 
-                // The "+" button for adding additional goals, which is shown if there are fewer than 3 goals.
+                // The "+" button for adding new goals is only shown if there are less than 3 goals, and it encourages the user to add more goals if they have already added at least one.
                 {goals.length < 3 && (
                     <Box sx={{ textAlign: "center", mt: 2 }}>
                         {goals.length >= 1 && (
@@ -446,10 +425,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     </Box>
                 )}
 
-
-                // The session duration section, 
-                which includes a title and input fields for hours and minutes, 
-                as well as a "Done" button to create the session.
+                // Duration selection section, where the user can specify how long they expect the session to take by entering hours and minutes. It includes validation to ensure the values are within reasonable limits.
                 <Typography
                     sx={{
                         mt: 4,
@@ -461,7 +437,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     I expect this session to take...
                 </Typography>
 
-                // Labels for the hours and minutes input fields, displayed above them.
+                // Labels for the hours and minutes input fields
                 <Box
                     sx={{
                         display: "flex",
@@ -481,7 +457,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     justifyContent="center"
                     sx={{ mt: 1 }}
                 >
-                    // The input field for hours, which is styled to be centered and visually distinct
+                    // The TextField components for hours and minutes are styled to look like a cohesive time input, with centered text and a larger font for better visibility. The onChange handlers ensure that the values are validated and formatted correctly.
                     <TextField
                         type="number"
                         value={hours}
@@ -502,13 +478,10 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                         :
                     </Typography>
 
-                    // The input field for minutes, which is styled similarly to the hours input and ensures valid minute values.
                     <TextField
                         type="number"
                         value={minutes}
-                        onChange={(e) =>
-                            setMinutes(validateMinutes(e.target.value))
-                        }
+                        onChange={(e) => setMinutes(validateMinutes(e.target.value))}
                         sx={{
                             width: "80px",
                             backgroundColor: "white",
@@ -522,8 +495,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                     />
                 </Stack>
 
-                // The "Done" button at the bottom of the popup, 
-                which triggers the session creation process when clicked.
+                // The "Done" button at the bottom of the popup triggers the handleCreate function, which validates the input and creates the session if everything is in order. It is styled to stand out and encourage the user to complete the session creation process.
                 <Button
                     variant="contained"
                     onClick={handleCreate}
@@ -538,11 +510,10 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                 >
                     Done
                 </Button>
-
             </DialogContent>
         </Dialog>
 
-        // The error modal that is displayed if the user tries to create a session without selecting a type or adding goals.
+        {/* Error modal, that is displayed if the user tries to create a session without selecting a type or adding goals. */}
         <Dialog
             open={errorOpen}
             onClose={closeErrorModal}
@@ -585,14 +556,6 @@ export default function CreateSessionPopUp({ open, onClose, onCreate }) {
                 </DialogActions>
             </DialogContent>
         </Dialog>
-
         </>
     );
 }
-
-
-
-
-
-
-
