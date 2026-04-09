@@ -2,11 +2,14 @@ import { Box, Typography, Paper } from "@mui/material";
 import { useState } from "react";
 import SessionCard from "../components/SessionCard/SessionCard.jsx";
 import CreateSessionPopUp from "../components/CreateSessionPopUp/CreateSessionPopUp.jsx";
+import ReflectionPopUp from "../components/ReflectionPopUp/ReflectionPopUp.jsx";
 
 export default function CreateSessionTest() {
   const [sessions, setSessions] = useState([]);
   const [open, setOpen] = useState(false);
   const [editingSession, setEditingSession] = useState(null);
+  const [reflectionOpen, setReflectionOpen] = useState(false);
+  const [reflectionSession, setReflectionSession] = useState(null);
 
   // Create or update session
   const handleSave = (sessionData) => {
@@ -45,6 +48,19 @@ export default function CreateSessionTest() {
     setOpen(true);
   };
 
+  const handleStartReflection = (session) => {
+    setReflectionSession(session);
+    setReflectionOpen(true);
+};
+
+  const handleSaveReflection = (id, reflectionText) => {
+    setSessions(prev =>
+        prev.map(s =>
+            s.id === id ? { ...s, reflection: reflectionText } : s
+        )
+    );
+};
+
   const plannedSessions = sessions.filter(s => !s.completed);
   const completedSessions = sessions.filter(s => s.completed);
 
@@ -81,6 +97,13 @@ export default function CreateSessionTest() {
         session={editingSession}
       />
 
+      <ReflectionPopUp
+        open={reflectionOpen}
+        onClose={() => setReflectionOpen(false)}
+        session={reflectionSession}
+        onSave={handleSaveReflection}
+      />
+
       {/* Planned Sessions */}
       <Typography variant="h5" sx={{ mt: 3, mb: 1 }}>
         Planned Sessions
@@ -97,6 +120,7 @@ export default function CreateSessionTest() {
             onEdit={handleEdit}
             onDelete={handleDelete}
             onFinish={handleFinish}
+            onStartReflection={handleStartReflection}
           />
         </Paper>
       ))}
@@ -117,6 +141,7 @@ export default function CreateSessionTest() {
             onEdit={handleEdit}
             onDelete={handleDelete}
             onFinish={handleFinish}
+            onStartReflection={handleStartReflection}
           />
         </Paper>
       ))}

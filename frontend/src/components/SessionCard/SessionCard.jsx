@@ -1,5 +1,5 @@
-import { Card, CardContent, Typography, Button, IconButton, CardHeader, Collapse, CardActions, Box, } from '@mui/material';
-import { Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import { Card, CardContent, Typography, Button, IconButton, Collapse, CardActions, Box, } from '@mui/material';
+import { Dialog } from "@mui/material";
 
 import ExpandMoreIcon from '@mui/icons-material/ArrowDropDown';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -21,7 +21,7 @@ const ExpandMore = styled((props) => {
     }),
 }));
 
-export default function SessionCard({ session, onEdit, onDelete, onFinish }) {
+export default function SessionCard({ session, onEdit, onDelete, onFinish, onStartReflection }) {
     const [expanded, setExpanded] = React.useState(false);
     const [confirmDeleteOpen, setConfirmDeleteOpen] = React.useState(false);
 
@@ -60,12 +60,14 @@ export default function SessionCard({ session, onEdit, onDelete, onFinish }) {
                 </Typography>
             </Box>
 
-            <IconButton 
-                sx={{ color: "#F4F7FF" }}
-                onClick={() => onEdit(session)}
-            >
-                <EditIcon fontSize="medium" />
-            </IconButton>
+            {!session.completed && (
+                <IconButton 
+                    sx={{ color: "#F4F7FF" }}
+                    onClick={() => onEdit(session)}
+                >
+                    <EditIcon fontSize="medium" />
+                </IconButton>
+            )}
 
             <ExpandMore
                 expand={expanded}
@@ -94,7 +96,6 @@ export default function SessionCard({ session, onEdit, onDelete, onFinish }) {
                             borderRadius: "12px",
                             px: 1.5,
                             py: 1.2,
-                            gap: 1.5,
                         }}
                     >
                         <FlagIcon sx={{ color: "#F4F7FF", fontSize: 18 }} />
@@ -170,7 +171,13 @@ export default function SessionCard({ session, onEdit, onDelete, onFinish }) {
 
                     <Button
                         variant="contained"
-                        onClick={() => onFinish(session.id)}
+                        onClick={() => {
+                            if (session.completed) {
+                                onStartReflection(session);
+                            } else {
+                                onFinish(session.id);
+                            }
+                        }}  
                         sx={{
                             minWidth: "48px",
                             height: "48px",
