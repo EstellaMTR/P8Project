@@ -3,7 +3,9 @@ package dk.StudyBobby.backend.services;
 import dk.StudyBobby.backend.dto.goalRequests.GoalEditRequest;
 import dk.StudyBobby.backend.entities.Goal;
 import dk.StudyBobby.backend.repositories.GoalRepository;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +37,7 @@ public class GoalService  {
     // EDIT SERVICE
     public Goal edit(GoalEditRequest request) {
         Optional<Goal> goal = goalRepo.findById(request.getGoalId());
-        if (goal.isEmpty()) throw new RuntimeException("Goal does not exist");
+        if (goal.isEmpty()) throw new ResponseStatusException(HttpStatusCode.valueOf(404),"Goal does not exist");
 
         Goal goalInfo = goal.get();
         goalInfo.setGoal(request.getGoal());

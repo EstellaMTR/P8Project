@@ -6,7 +6,6 @@ import dk.StudyBobby.backend.entities.User;
 import dk.StudyBobby.backend.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 @Service

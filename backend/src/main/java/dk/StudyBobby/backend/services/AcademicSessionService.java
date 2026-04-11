@@ -18,7 +18,10 @@ import dk.StudyBobby.backend.repositories.UserRepository;
 import jakarta.validation.constraints.Null;
 import org.apache.commons.lang3.ObjectUtils;
 import org.hibernate.Session;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -55,12 +58,13 @@ public class AcademicSessionService {
 
         // Make sure that at least one goal is passed
         if (request.getGoals() == null || request.getGoals().isEmpty()) {
-            throw new RuntimeException("At least one goal is required");
+            throw new ResponseStatusException(HttpStatusCode.valueOf(400), "At least one goal is required");
         }
 
         // Find matching user ID in repo, to make sure user exists
         User user = userRepo.findById(request.getUserId())
-                .orElseThrow(() -> new RuntimeException("User does not exist"));
+                .orElseThrow(() ->
+                        new ResponseStatusException(HttpStatusCode.valueOf(404), "User does not exist"));
 
         // If above validation is successfully gone through
         // then create the Academic Session...
@@ -104,7 +108,7 @@ public class AcademicSessionService {
         // Defining current Academic Session by finding it in Academic Session repo
         AcademicSession session = sessionRepo.findById(request.getAcademicSessionId())
                 // ...and handling if it does not exist in repo
-                .orElseThrow(() -> new RuntimeException("Academic session does not exist"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404),"Academic session does not exist"));
 
         // updating the following
         session.setTitle(request.getTitle());
@@ -137,7 +141,7 @@ public class AcademicSessionService {
         // Defining current Academic Session by finding it in Academic Session repo
         AcademicSession session = sessionRepo.findById(request.getAcademicSessionId())
                 // ...and handling if it does not exist in repo
-                .orElseThrow(() -> new RuntimeException("Academic session does not exist"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatusCode.valueOf(404), "Academic Session not found"));
 
         // get the current state
         SessionState state = session.getState();
@@ -187,6 +191,9 @@ public class AcademicSessionService {
      * @return list of all Academic Sessions in Academic Session repo by UserId
      */
     public List<AcademicSession> getByUserId(Long userId) {
+        if (!userRepo.existsById(userId)){
+            throw new ResponseStatusException(HttpStatusCode.valueOf(404), "User not found");
+        }
         return sessionRepo.findByUser_Id(userId);
     }
 }
