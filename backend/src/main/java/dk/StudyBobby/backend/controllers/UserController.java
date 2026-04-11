@@ -1,6 +1,7 @@
 package dk.StudyBobby.backend.controllers;
 
 import dk.StudyBobby.backend.dto.userRequests.UserCreateRequest;
+import dk.StudyBobby.backend.dto.userRequests.UserDTO;
 import dk.StudyBobby.backend.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -34,7 +35,8 @@ public class UserController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
     })
     @GetMapping
-    public List<User> getAll() {
+    // we return userDTO here so we aren't ALSO returning the password to the user
+    public List<UserDTO> getAll() {
         return service.getAll();
     }
 
@@ -47,8 +49,8 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "User was not found"),
     })
     @GetMapping("/user/{userId}")
-    public ResponseEntity<User> getUserById(@PathVariable Long userId){
-        Optional<User> user = service.getUserById(userId);
+    public ResponseEntity<UserDTO> getUserById(@PathVariable Long userId){
+        Optional<UserDTO> user = service.getUserById(userId);
         if (user.isPresent()) {
             // we return .ok, which is status code 200 (see above ApiResponse)
             return ResponseEntity.ok(user.get());

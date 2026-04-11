@@ -2,6 +2,7 @@ package dk.StudyBobby.backend.services;
 
 import dk.StudyBobby.backend.dto.userRequests.LoginRequest;
 import dk.StudyBobby.backend.dto.userRequests.UserCreateRequest;
+import dk.StudyBobby.backend.dto.userRequests.UserDTO;
 import dk.StudyBobby.backend.entities.User;
 import dk.StudyBobby.backend.repositories.UserRepository;
 import org.springframework.stereotype.Service;
@@ -12,23 +13,34 @@ import java.util.Optional;
 public class UserService {
 
     private final UserRepository userRepo;
+    private final MapperService mapper;
 
-    public UserService(UserRepository userRepo){
+    public UserService(UserRepository userRepo, MapperService mapper){
         this.userRepo = userRepo;
+        this.mapper = mapper;
     }
 
     // GET all users
-    public List<User> getAll(){
-        return userRepo.findAll();
+    public List<UserDTO> getAll(){
+        // the next line says:
+        // find everything
+        // go through each element
+        // call the method "toDTO" on it
+        // collect the result in a list
+        // We do this because our above return type is a List
+        return userRepo.findAll().stream()
+                .map(user -> mapper.toDTO(user))
+                .toList();
     }
 
     // GET user by id
-    public Optional<User> getUserById(Long userId){
-        return userRepo.findById(userId);
+    public Optional<UserDTO> getUserById(Long userId){
+        // here we jsut call map because map has a built in map function that can handle it.
+        return userRepo.findById(userId).map(user -> mapper.toDTO(user));
     }
 
     // CREATE new user
-    public User create(UserCreateRequest request) {
+    public UserDTO create(UserCreateRequest request) {
         User user = new User();
 
         user.setName(request.getName());
@@ -36,7 +48,7 @@ public class UserService {
 
         user = userRepo.save(user);
 
-        return user;
+        return mapper.toDTO(user);
     }
 
     // VALIDATE login credentials
