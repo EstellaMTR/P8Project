@@ -2,11 +2,14 @@ import { useState } from "react";
 import SessionCard from "../SessionCard/SessionCard.jsx"; 
 import CreateSessionPopUp from "../CreateSessionPopUp/CreateSessionPopUp.jsx";
 
+
 export default function SessionManager() {
     const [sessions, setSessions] = useState([]);
     const [editingSession, setEditingSession] = useState(null);
     const [isPopupOpen, setIsPopupOpen] = useState(false);
-
+    const [reflectionOpen, setReflectionOpen] = useState(false);
+    const [reflectionSession, setReflectionSession] = useState(null);
+    
     // Open popup for creating a new session
     const handleCreateNew = () => {
         setEditingSession(null);      // no session = create mode
@@ -52,6 +55,19 @@ export default function SessionManager() {
         );
     };
 
+    const handleStartReflection = (session) => {
+        setReflectionSession(session);
+        setReflectionOpen(true);
+    };
+
+    const handleSaveReflection = (id, reflectionText) => {
+        setSessions(prev =>
+            prev.map(s =>
+                s.id === id ? { ...s, reflection: reflectionText } : s
+            )
+        );
+    };
+
     return (
         <div style={{ width: "100%", maxWidth: "600px", margin: "0 auto" }}>
 
@@ -91,6 +107,7 @@ export default function SessionManager() {
                     onEdit={handleEdit}
                     onDelete={handleDelete}
                     onFinish={handleFinish}
+                    onStartReflection={handleStartReflection}
                 />
             ))}
         </div>
