@@ -20,7 +20,7 @@ export function HamburgerMenu() {
                     aria-label="open drawer"
                     sx={{
                         bgcolor: 'var(--button)',
-                        color: '#f0f0f0',
+                        color: '#f4f7ff',
                         '&:hover': { bgcolor: 'rgba(20, 184, 166, 0.9)' },
                     }}
                 >
@@ -35,7 +35,7 @@ export function HamburgerMenu() {
                 onClose={toggleDrawer(false)}
                 onOpen={toggleDrawer(true)}
             >
-                <Box sx={{ p: 2, width: 250, backgroundColor: '#f0f0f0' }}>
+                <Box sx={{ p: 2, width: 250, backgroundColor: '#f4f7ff' }}>
                     <List>
                         <ListItem button onClick={toggleDrawer(false)}>
                             <ListItemText primary="Home" />
