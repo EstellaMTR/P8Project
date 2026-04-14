@@ -1,0 +1,58 @@
+package dk.StudyBobby.backend.services;
+
+import dk.StudyBobby.backend.dto.goalRequests.GoalEditRequest;
+import dk.StudyBobby.backend.entities.Goal;
+import dk.StudyBobby.backend.repositories.GoalRepository;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class GoalService  {
+
+    private final GoalRepository goalRepo;
+
+    public GoalService(GoalRepository goalRepo) {
+        this.goalRepo = goalRepo;
+    }
+
+    // GET ALL SERVICE
+    public List<Goal> getAll() {
+        return goalRepo.findAll();
+    }
+
+    // GET ALL BY USER ID SERVICE
+    public List<Goal> getByUserId(Long userId) {
+        return goalRepo.findByAcademicSession_UserId(userId);
+    }
+
+    // GET ALL BY ACADEMIC SESSION ID SERVICE
+    public List<Goal> getByAcademicSessionId(Long sessionId) {
+        return goalRepo.findByAcademicSession_Id(sessionId);
+    }
+
+    // EDIT SERVICE
+    public Goal edit(GoalEditRequest request) {
+        Optional<Goal> goal = goalRepo.findById(request.getGoalId());
+        if (goal.isEmpty()) throw new ResponseStatusException(HttpStatusCode.valueOf(404),"Goal does not exist");
+
+        Goal goalInfo = goal.get();
+        goalInfo.setGoal(request.getGoal());
+
+        goalInfo = goalRepo.save(goalInfo);
+
+        return goalInfo;
+    }
+
+    // DELETE SERVICE
+    public void delete(Long id) {
+        goalRepo.deleteById(id);
+    }
+
+
+
+
+}

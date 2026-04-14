@@ -26,6 +26,7 @@ You can view it using DB browser. If the database.db file is not there, then run
 When we make a change to our entities, we should delete the database.db file, then run the backend again, so that it generates the database.db file again, with the updated schema
 
 # To run Frontend
+- cd to "frontend"
 - First, run "npm install" to install all node packages 
 - The run "npm run dev" to run the frontend
 
@@ -42,3 +43,12 @@ cd into "openapi" folder
 Call command "npm run generate"
     - This generates a http client that makes it easier to call the backend from the frontend
 
+# DTO's
+How DTO's work:
+Frontend (JSON)
+      ↓
+DTO (GoalRequest)
+      ↓
+Entity (Goal)
+      ↓
+Database
