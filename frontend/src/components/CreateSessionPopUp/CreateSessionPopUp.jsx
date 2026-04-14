@@ -24,7 +24,7 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import PsychologyIcon from "@mui/icons-material/Psychology";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect } from "react";    
 
 export default function CreateSessionPopUp({ open, onClose, onCreate, session }) {
 // To make sure values can change without error, we need to set up state for each input field and goal list
