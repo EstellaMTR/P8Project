@@ -137,7 +137,10 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, session })
             title,
             type,
             goals,
-            estimatedTime: `${hours} h ${minutes} m`,
+            duration: {
+                hours,
+                minutes
+            },
             status: session?.status || "planned",
             createdAt: session?.createdAt || Date.now(),
         };
