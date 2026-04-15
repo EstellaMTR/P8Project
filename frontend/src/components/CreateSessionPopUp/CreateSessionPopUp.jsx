@@ -120,7 +120,10 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, session })
             title: title.trim(),
             type,
             goals,
-            duration: { hours, minutes },
+            duration: { 
+            hours: hours ?? session.duration?.hours ?? 0,
+            minutes: minutes ?? session.duration?.minutes ?? 0,
+            },
             status: "planned",
             createdAt: Date.now(),
         });
