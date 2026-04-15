@@ -81,7 +81,7 @@ export default function Login({ onLogin }) {
           />
 
           {error && (
-            <Typography sx={{ color: "red", mb: 2 }}>{error}</Typography>
+            <Typography sx={{ color: "var(--textLight)", mb: 2 }}>{error}</Typography>
           )}
 
           <Button
