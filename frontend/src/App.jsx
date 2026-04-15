@@ -19,25 +19,13 @@ export default function App() {
 
   return (
     <>
+    <HamburgerMenu /> 
       {!user ? (
         <Login onLogin={handleLogin} />
       ) : (
-        <CreateSessionTest user={user} />
+        <CreateSessionTest user={user} /> 
       )}
     </>
   );
 }
-
-
-
-/* the old function App
-function App() {
-  return (
-    <>
-    <HamburgerMenu /> 
-    <CreateSessionTest />
-    </>
-  ); 
-}
-*/
 
