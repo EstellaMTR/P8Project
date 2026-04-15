@@ -4,7 +4,8 @@ import SessionCard from "../components/SessionCard/SessionCard.jsx";
 import CreateSessionPopUp from "../components/CreateSessionPopUp/CreateSessionPopUp.jsx";
 import ReflectionPopUp from "../components/ReflectionPopUp/ReflectionPopUp.jsx";
 
-export default function CreateSessionTest() {
+export default function CreateSessionTest({ user }) {
+  console.log("Logged in as:", user.name);
   const [sessions, setSessions] = useState([]);
   const [open, setOpen] = useState(false);
   const [editingSession, setEditingSession] = useState(null);
@@ -85,6 +86,15 @@ export default function CreateSessionTest() {
       >
         + New Session
       </button>
+
+      <Button
+        onClick={() => {
+          localStorage.removeItem("user");
+          window.location.reload();
+        }}
+      >
+        Logout
+      </Button>
 
       {/* Popup */}
       <CreateSessionPopUp
