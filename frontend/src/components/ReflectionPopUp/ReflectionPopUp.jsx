@@ -2,6 +2,7 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Typography, Box, Stack, Rating, IconButton, } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import FlagIcon from "@mui/icons-material/Flag";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
 import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
@@ -187,7 +188,16 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                 <Typography component= "span" variant="h6">
                     Reflection
                 </Typography>
-                <IconButton disabled>
+                <IconButton 
+                onClick={onClose}
+                sx={{
+                    backgroundColor: "#14B8A6",
+                    color: "white",
+                    "&:hover": {
+                        backgroundColor: "#12a796",
+                    },
+                }}
+                >
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
@@ -200,8 +210,18 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                     <Stack spacing={3}
                     alignItems="center"
                     textAlign="center">
-                        <Typography variant="subtitle1">
-                            {session.title} - {session.type}
+                        <Typography 
+                        variant="h5"
+                        sx={{ fontWeight: "bold" }}
+                        >
+                            {session.title}
+                        </Typography>
+
+                        <Typography
+                            variant="subtitle2"
+                            sx={{ opacity: 0.9}}
+                        >
+                            {session.type}
                         </Typography>
 
                         <Typography>
@@ -235,12 +255,19 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
 
                         <Box
                             sx={{
-                                p: 1,
-                                borderRadius: 1,
-                                backgroundColor: "#f5f5f5",
+                                borderRadius: "999px",
+                                backgroundColor: "white",
                                 width: "fit-content",
+                                color: "#456EBB",
+                                px: 2,
+                                py: 1,
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 1,
                             }}
                         >
+                            <AccessTimeIcon fontSize="small" />
+
                             {session.duration.hours} hours and{" "}
                             {session.duration.minutes} minutes
                         </Box>
