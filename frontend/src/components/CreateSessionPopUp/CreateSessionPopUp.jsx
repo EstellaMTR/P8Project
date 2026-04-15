@@ -24,9 +24,8 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import PsychologyIcon from "@mui/icons-material/Psychology";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
-import { useState, useEffect } from "react";     
-
 // To make sure values can change without error, we need to set up state for each input field and goal list
+import { useState, useEffect } from "react";     
 
 // Defines and exports a React component that takes the props open, onClose, and onCreate as its inputs
 export default function CreateSessionPopUp({ open, onClose, onCreate, session }) {
