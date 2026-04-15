@@ -87,15 +87,6 @@ export default function CreateSessionTest({ user }) {
         + New Session
       </button>
 
-      <button
-        onClick={() => {
-          localStorage.removeItem("user");
-          window.location.reload();
-        }}
-      >
-        Logout
-      </button>
-
       {/* Popup */}
       <CreateSessionPopUp
         open={open}

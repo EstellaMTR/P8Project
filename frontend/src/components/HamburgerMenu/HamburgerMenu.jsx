@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Box, IconButton, Drawer, List, ListItem, ListItemText } from '@mui/material';
+import { Box, IconButton, Drawer, List, ListItemButton, ListItemText } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 
 export function HamburgerMenu() {
@@ -10,6 +10,11 @@ export function HamburgerMenu() {
             return;
         }
         setOpen(openState);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem("user");
+        window.location.reload();
     };
 
     return (
@@ -37,12 +42,22 @@ export function HamburgerMenu() {
             >
                 <Box sx={{ p: 2, width: 250, backgroundColor: '#f4f7ff' }}>
                     <List>
-                        <ListItem button onClick={toggleDrawer(false)}>
+                        <ListItemButton onClick={toggleDrawer(false)}>
                             <ListItemText primary="Home" />
-                        </ListItem>
-                        <ListItem button onClick={toggleDrawer(false)}>
+                        </ListItemButton>
+                        <ListItemButton onClick={toggleDrawer(false)}>
                             <ListItemText primary="Archive" />
-                        </ListItem>
+                        </ListItemButton>
+
+                        <ListItemButton 
+                            button 
+                            onClick={() => {
+                                setOpen(false);
+                                handleLogout();
+                            }}
+                        >
+                            <ListItemText primary="Logout" />
+                        </ListItemButton>
                     </List>
                 </Box>
             </Drawer>
