@@ -133,12 +133,17 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
         };
     
     return (
+        <>
+            {/* 
+            The onClose is set to an empty function to prevent the dialog 
+            from closing when the user clicks outside of it or presses escape. 
+            This ensures the user must complete the reflection or explicitly 
+            click a button to close it.
+        */}
 
         <Dialog
             open={open}
             onClose={() => {}}
-            {/* The onClose is set to an empty function to prevent the dialog from closing when the user clicks outside of it or presses the escape key, 
-            to make sure that the user must complete the reflection process or explicitly click a button to close it. */}
             disableEscapeKeyDown
             fullWidth
             maxWidth="sm"
@@ -312,5 +317,6 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                     )}
             </DialogActions>
         </Dialog>
-    );
+    </>
+);
 }
