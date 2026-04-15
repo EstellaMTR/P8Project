@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import dk.StudyBobby.backend.entities.User;
 import dk.StudyBobby.backend.repositories.UserRepository;
 import org.springframework.web.server.ResponseStatusException;
+import dk.StudyBobby.backend.dto.userRequests.LoginRequest;
 
 import java.util.List;
 import java.util.Optional;
 
 // controllers are endpoints. They are what we can call from the frontend to do things.
 // They usually talk to the repositories to get data from the database, and then return that data to the frontend.
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
@@ -75,5 +77,16 @@ public class UserController {
         // again, we are only returning .ok as a possibility, because we have no other
         // checks. The only thing that can happen is success (look at UserService "create" - there are no checks)
         return ResponseEntity.ok(user.getId());
+    }
+
+    // POST Log in user 
+    @PostMapping("/login")
+    public ResponseEntity<UserDTO> login(@RequestBody LoginRequest request) {
+        try {
+            UserDTO user = service.login(request);
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
     }
 }
