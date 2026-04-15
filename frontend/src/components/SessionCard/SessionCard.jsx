@@ -138,7 +138,7 @@ export default function SessionCard({ session, onEdit, onDelete, onFinish, onSta
                 >
                 <ClockIcon sx={{ fontSize: 18 }} />
                 <Typography sx={{ fontSize: "0.95rem", fontWeight: 500 }}>
-                    {session.estimatedTime}
+                    {session.duration.hours} hours and {session.duration.minutes} minutes
                 </Typography>
             </Box>
 

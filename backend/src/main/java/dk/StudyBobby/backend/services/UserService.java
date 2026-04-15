@@ -51,12 +51,16 @@ public class UserService {
         return mapper.toDTO(user);
     }
 
-    // VALIDATE login credentials
-    public Long validate(LoginRequest request) {
+    // VALIDATE login credentials NEW
+    public UserDTO login(LoginRequest request) {
         User user = userRepo.findByName(request.getName())
-                .orElseThrow(() -> new RuntimeException("Invalid credentials"));
+            .orElseThrow(() -> new RuntimeException("Invalid username or password"));
 
-        return user.getId(); // we have to return the ID to frontend to give own session
+        if (!user.getPassword().equals(request.getPassword())) {
+            throw new RuntimeException("Invalid username or password");
+        }
+
+        return mapper.toDTO(user);
     }
 
 
