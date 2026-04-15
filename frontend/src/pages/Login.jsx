@@ -29,26 +29,53 @@ export default function Login({ onLogin }) {
   };
 
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", mt: 10 }}>
-      <Paper sx={{ p: 4, width: 350, borderRadius: "16px" }}>
-        <Typography variant="h5" sx={{ mb: 3, fontWeight: 700 }}>
+    <Box sx={{ 
+      minHeight: "100vh", 
+      background: "var(--bgGradient)",
+      display: "flex", 
+      justifyContent: "center",
+      alignItems: "center", 
+      px: 2 }}>
+      <Paper 
+      elevation={6}
+      sx={{ 
+        width: "100%", maxWidth: 360,
+        backgroundColor: "var(--cardMain)", 
+        borderRadius: "16px",
+        p: 4,
+        color: "var(--textLight)",
+        }}>
+        <Typography 
+        variant="h5" sx={{ mb: 0.5, fontWeight: 700, textAlign: "center" }}>
           Log In
         </Typography>
 
+        <Typography
+        sx={{ fontSize: "0.85rem", textAlign: "center", opacity: 0.85, mb: 3}}>
+          Please enter your provided login credentials
+        </Typography>
+
+
         <form onSubmit={handleSubmit}>
+          <Typography sx= {{ fontSize: "0.85rem", mb: 0.5 }}>
+            Username
+          </Typography>
+
           <TextField
-            label="Username"
             fullWidth
-            sx={{ mb: 2 }}
+            sx={{ mb: 2, backgroundColor: "white", borderRadius: "8px", }}
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
+          <Typography sx= {{ fontSize: "0.85rem", mb: 0.5 }}>
+            Password
+          </Typography>
+
           <TextField
-            label="Password"
             type="password"
             fullWidth
-            sx={{ mb: 2 }}
+            sx={{ mb: 2, backgroundColor: "white", borderRadius: "8px", }}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
