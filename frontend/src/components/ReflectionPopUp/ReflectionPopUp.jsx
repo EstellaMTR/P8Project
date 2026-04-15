@@ -184,7 +184,9 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                     alignItems: "center" 
                 }}
             >
-                <Typography variant="h6">Reflection</Typography>
+                <Typography component= "span" variant="h6">
+                    Reflection
+                </Typography>
                 <IconButton disabled>
                     <CloseIcon />
                 </IconButton>
@@ -269,7 +271,6 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                     }}
              >
                     <FlagIcon />
-                    {goal}
                      {session.goals[currentGoalIndex]}
                 </Box>
                 
