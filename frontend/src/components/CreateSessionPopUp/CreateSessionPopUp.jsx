@@ -24,9 +24,9 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import PsychologyIcon from "@mui/icons-material/Psychology";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
+import { useState, useEffect } from "react";    
 
 // To make sure values can change without error, we need to set up state for each input field and goal list
-import { useState, useEffect } from "react";
 
 // Defines and exports a React component that takes the props open, onClose, and onCreate as its inputs
 export default function CreateSessionPopUp({ open, onClose, onCreate, session }) {
@@ -72,7 +72,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, session })
     }
 }, [session]);
 
-    // ✅ Reset everything
+    // Reset everything
     const resetPopup = () => {
         setTitle(initialState.title);
         setType(initialState.type);
@@ -120,7 +120,10 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, session })
             title: title.trim(),
             type,
             goals,
-            duration: { hours, minutes },
+            duration: { 
+            hours: hours ?? session.duration?.hours ?? 0,
+            minutes: minutes ?? session.duration?.minutes ?? 0,
+            },
             status: "planned",
             createdAt: Date.now(),
         });
