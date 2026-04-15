@@ -104,6 +104,9 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
         onClose();    
         };
     
+    const durationHours = session.duration.hours ?? 0;
+    const durationMinutes = session.duration.minutes ?? 0;
+    
     return (
         <Dialog
             open={open}
