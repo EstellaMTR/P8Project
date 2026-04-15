@@ -3,6 +3,7 @@ import { useState } from "react";
 import SessionCard from "../components/SessionCard/SessionCard.jsx";
 import CreateSessionPopUp from "../components/CreateSessionPopUp/CreateSessionPopUp.jsx";
 import ReflectionPopUp from "../components/ReflectionPopUp/ReflectionPopUp.jsx";
+import { HamburgerMenu } from '../components/HamburgerMenu/HamburgerMenu'
 
 export default function CreateSessionTest({ user }) {
   console.log("Logged in as:", user.name);
@@ -66,6 +67,8 @@ export default function CreateSessionTest({ user }) {
   const completedSessions = sessions.filter(s => s.completed);
 
   return (
+  <>
+    <HamburgerMenu />
     <Box sx={{ p: 4 }}>
       {/* Create button */}
       <button
@@ -147,5 +150,6 @@ export default function CreateSessionTest({ user }) {
         </Paper>
       ))}
     </Box>
+    </>
   );
 }

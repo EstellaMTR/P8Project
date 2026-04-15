@@ -19,7 +19,6 @@ export default function App() {
 
   return (
     <>
-    <HamburgerMenu /> 
       {!user ? (
         <Login onLogin={handleLogin} />
       ) : (

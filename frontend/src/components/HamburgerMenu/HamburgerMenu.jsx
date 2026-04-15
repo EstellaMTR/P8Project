@@ -56,7 +56,7 @@ export function HamburgerMenu() {
                                 handleLogout();
                             }}
                         >
-                            <ListItemText primary="Logout" />
+                            <ListItemText primary="Log out" />
                         </ListItemButton>
                     </List>
                 </Box>
