@@ -116,9 +116,9 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
             maxWidth="sm"
             PaperProps={{
                 sx: {
-                    backgroundColor: "#456ebb"
-                    borderRadius: 20px,
-                    color: "white"
+                    backgroundColor: "#456ebb",
+                    borderRadius: "20px",
+                    color: "white",
                     padding: 2,
                 },
             }}
@@ -156,7 +156,7 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                                     p: 1,
                                     borderRadius: "999px",
                                     backgroundColor: "white",
-                                    color: "#456ebb"
+                                    color: "#456ebb",
                                     px: 2,
                                     py: 1,
                                     display: "flex",
