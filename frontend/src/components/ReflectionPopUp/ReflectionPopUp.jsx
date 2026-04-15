@@ -1,5 +1,11 @@
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button, TextField, Typography, Box, Stack, Rating, IconButton, } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
+import FlagIcon from "@mui/icons-material/Flag";
+import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
+import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
+import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
+import SentimentNeutralIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
+import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
 import { useState, useEffect } from "react";
 
 const ReflectionQuestions = {
@@ -7,6 +13,19 @@ const ReflectionQuestions = {
     q1: "What made the task easier or more difficult than expected?",
     q2: "What should I change in my approach next time to improve my learning?",
 };
+
+const sentimentIcons = {
+    1: <SentimentVeryDissatisfiedIcon />,
+    2: <SentimentDissatisfiedIcon />,
+    3: <SentimentNeutralIcon />,
+    4: <SentimentSatisfiedIcon />,
+    5: <SentimentVerySatisfiedIcon />,
+};
+
+function IconContainer(props) {
+    const { value, ...other } = props;
+    return <span {...other}>{sentimentIcons[value]}</span>;
+}
 
 export default function ReflectionPopUp({ open, onClose, session, onSave }) {
 
@@ -92,6 +111,14 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
             disableEscapeKeyDown
             fullWidth
             maxWidth="sm"
+            PaperProps={{
+                sx: {
+                    backgroundColor: "#456ebb"
+                    borderRadius: 20px,
+                    color: "white"
+                    padding: 2,
+                },
+            }}
         >
             <DialogTitle
                 sx={{ 
@@ -108,7 +135,9 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
 
             <DialogContent>
                 {step === 0 && (
-                    <Stack spacing={2}>
+                    <Stack spacing={3}
+                    alignItems="center"
+                    textAlign="center">
                         <Typography variant="subtitle1">
                             {session.title} - {session.type}
                         </Typography>
@@ -122,8 +151,16 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                                 key={i} 
                                 sx={{ 
                                     p: 1,
-                                    borderRadius: 1,
-                                    backgroundColor: "#f5f5f5",
+                                    borderRadius: "999px",
+                                    backgroundColor: "white",
+                                    color: "#456ebb"
+                                    px: 2,
+                                    py: 1,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 1,
+                                    minWidth: "80%",
+                                    justifyContent: "center",
                                 }}
                         >
                                 {goal}
@@ -149,7 +186,9 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                 )}
             
             {step === 1 && currentReflection && (
-                <Stack spacing={3}>
+                <Stack spacing={3}
+                alignItems="center"
+                textAlign="center">
                     <Typography variant="subtitle1">
                         Reflection for goal
                     </Typography>
@@ -157,10 +196,19 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                     <Box
                         sx={{
                             p: 1,
-                            borderRadius: 1,
-                            backgroundColor: "#f5f5f5",
+                            borderRadius: "999px",
+                            backgroundColor: "white",
+                            color: "#456ebb",
+                            width: "fit-content",
+                            px: 2,
+                            py: 1,
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
                     }}
              >
+                    <FlagIcon />
+                    {goal}
                      {session.goals[currentGoalIndex]}
                 </Box>
                 
@@ -176,6 +224,8 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                     })
                     }
                     max={5}
+                    IconContainerComponent={IconContainer}
+                    sx= {{ color: "white" }}
                     highlightSelectedOnly
                 />
 
@@ -215,7 +265,13 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
 
             </DialogContent>
 
-            <DialogActions>
+            <DialogActions
+                sx={{
+                    justifyContent: "center",
+                    gap: 2,
+                    paddingBottom: 2,
+                }}
+                >
                 {step === 1 && (
                     <Button
                         onClick={handlePrevious}
@@ -252,6 +308,12 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                             variant="contained"
                             onClick={handleFinish}
                             disabled={!isAllComplete}
+                            sx= {{
+                                backgroundColor: "#14B8A6",
+                                color: "white",
+                                borderRadius: "999px",
+                                px: 3,
+                            }}
                         >
                             Finish reflection
                         </Button>
