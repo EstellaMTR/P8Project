@@ -20,6 +20,7 @@ import java.util.Optional;
 
 // controllers are endpoints. They are what we can call from the frontend to do things.
 // They usually talk to the repositories to get data from the database, and then return that data to the frontend.
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/api/users")
 public class UserController {

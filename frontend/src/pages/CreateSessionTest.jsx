@@ -87,14 +87,14 @@ export default function CreateSessionTest({ user }) {
         + New Session
       </button>
 
-      <Button
+      <button
         onClick={() => {
           localStorage.removeItem("user");
           window.location.reload();
         }}
       >
         Logout
-      </Button>
+      </button>
 
       {/* Popup */}
       <CreateSessionPopUp
