@@ -172,12 +172,13 @@ export default function SessionCard({ session, onEdit, onDelete, onFinish, onSta
                     <Button
                         variant="contained"
                         onClick={() => {
-                            if (session.completed) {
-                                onStartReflection(session);
-                            } else {
+                            if (!session.completed) {
                                 onFinish(session.id);
+                                return;
                             }
-                        }}  
+
+                            onStartReflection(session);
+                        }}
                         sx={{
                             minWidth: "48px",
                             height: "48px",
@@ -191,7 +192,11 @@ export default function SessionCard({ session, onEdit, onDelete, onFinish, onSta
                             boxShadow: "0px 2px 4px rgba(0,0,0,0.15)",
                         }}
                     >
-                        {session.completed ? "Start Reflection" : "Finish"}
+                        {!session.completed 
+                        ? "Finish" 
+                        : session.reflected
+                            ? "View or edit Reflection"
+                            : "Start Reflection"}
                     </Button>
                 </Box>
             </CardActions>

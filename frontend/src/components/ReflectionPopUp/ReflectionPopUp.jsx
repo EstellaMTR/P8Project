@@ -34,10 +34,9 @@ function IconContainer(props) {
 
 export default function ReflectionPopUp({ open, onClose, session, onSave }) {
 
-    /* If there is no session or if the session does not have goals, return null (do not render anything) */
-    if (!session || !session.goals) {
-        return null;
-    }
+if (!open) {
+    return null;
+}
 
     /* State variables to manage the current step of the reflection process, the index of the current goal being reflected on, and the reflections themselves (which include the goal, rating, and answers to the questions) 
     The first const represents which step of the reflection process we are in (which page of the wizard the user is on) */
@@ -67,6 +66,10 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
             );
             }
         }, [session]);
+    
+    const goals = session.goals ?? [];
+    const durationHours = session?.duration?.hours ?? 0;
+    const durationMinutes = session?.duration?.minutes ?? 0;
 
     /* This variable holds the reflection data for the current goal being reflected on, based on the currentGoalIndex. 
     If there are reflections available, it retrieves the reflection corresponding to the current goal index; otherwise, it sets it to null. 
@@ -151,8 +154,6 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
         onClose();    
         };
     
-    const durationHours = session.duration.hours ?? 0;
-    const durationMinutes = session.duration.minutes ?? 0;
     
     return (
         <>
