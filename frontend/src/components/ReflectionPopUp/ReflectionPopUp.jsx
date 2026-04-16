@@ -5,9 +5,9 @@ import FlagIcon from "@mui/icons-material/Flag";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import SentimentVeryDissatisfiedIcon from "@mui/icons-material/SentimentVeryDissatisfied";
 import SentimentDissatisfiedIcon from "@mui/icons-material/SentimentDissatisfied";
+import SentimentNeutralIcon from "@mui/icons-material/SentimentNeutral";
 import SentimentSatisfiedIcon from "@mui/icons-material/SentimentSatisfied";
-import SentimentNeutralIcon from "@mui/icons-material/SentimentSatisfiedAltOutlined";
-import SentimentVerySatisfiedIcon from "@mui/icons-material/SentimentVerySatisfied";
+import SentimentVerySatisfiedIcon from '@mui/icons-material/SentimentVerySatisfied';
 /* Importing React hooks, useState stores values, that can change over time
 and useEffect runs code, when something changes e. g. when a session loads */
 import { useState, useEffect } from "react";
@@ -179,18 +179,23 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
             }}
         >
             <DialogTitle
-                sx={{ 
-                    display: "flex", 
-                    justifyContent: "space-between", 
-                    alignItems: "center" 
+                sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    position: "relative",
                 }}
             >
-                <Typography component= "span" variant="h6">
+                <Typography component="span" variant="h6" sx={{ fontSize: "1.25rem" }}>
                     Reflection
                 </Typography>
                 <IconButton 
                 onClick={onClose}
                 sx={{
+                    position: "absolute",
+                    right: 8,
+                    top: "50%",
+                    transform: "translateY(-50%)",
                     backgroundColor: "#14B8A6",
                     color: "white",
                     "&:hover": {
@@ -207,19 +212,14 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                 It uses Material-UI components to structure and style the content, such as Stack for spacing, Typography for text, and Box for styling the goals and duration. 
                 This provides the user with a clear summary of their study session before they begin reflecting on each goal. */}
                 {step === 0 && (
-                    <Stack spacing={3}
-                    alignItems="center"
-                    textAlign="center">
-                        <Typography 
-                        variant="h5"
-                        sx={{ fontWeight: "bold" }}
-                        >
+                    <Stack spacing={2} alignItems="center" textAlign="center">
+                        <Typography variant="h5" sx={{ fontWeight: "bold" }}>
                             {session.title}
                         </Typography>
 
                         <Typography
-                            variant="subtitle2"
-                            sx={{ opacity: 0.9}}
+                            variant="subtitle1"
+                            sx={{ opacity: 0.9, fontSize: "1rem" }}
                         >
                             {session.type}
                         </Typography>
@@ -375,6 +375,12 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                         variant="contained"
                         onClick={() => setStep(1)}
                         disabled={reflections.length === 0}
+                        sx= {{
+                            backgroundColor: "#14B8A6",
+                            color: "white",
+                            borderRadius: "999px",
+                            px: 3,
+                        }}
                     >
                         Start Reflection
                     </Button>
