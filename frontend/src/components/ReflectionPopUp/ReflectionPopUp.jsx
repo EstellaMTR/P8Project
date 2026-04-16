@@ -375,6 +375,12 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                         variant="contained"
                         onClick={() => setStep(1)}
                         disabled={reflections.length === 0}
+                        sx= {{
+                            backgroundColor: "#14B8A6",
+                            color: "white",
+                            borderRadius: "999px",
+                            px: 3,
+                        }}
                     >
                         Start Reflection
                     </Button>
