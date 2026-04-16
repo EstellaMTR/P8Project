@@ -17,7 +17,9 @@ export default function CreateSessionTest({ user }) {
   const handleSave = (sessionData) => {
     if (editingSession) {
       setSessions(prev =>
-        prev.map(s => s.id === sessionData.id ? sessionData : s)
+        prev.map(s => s.id === sessionData.id
+           ? { ...s,...sessionData }
+          : s)
       );
     } else {
       setSessions(prev => [
@@ -51,16 +53,28 @@ export default function CreateSessionTest({ user }) {
   };
 
   const handleStartReflection = (session) => {
-    setReflectionSession(session);
-    setReflectionOpen(true);
-};
+    setReflectionSession(null);
+    setReflectionOpen(false);
 
-  const handleSaveReflection = (id, reflectionText) => {
+
+
+    setTimeout(() => {
+      setReflectionSession(session);
+      setReflectionOpen(true);
+    }, 0);
+  };
+
+  const handleSaveReflection = (updatedSession) => {
     setSessions(prev =>
         prev.map(s =>
-            s.id === id ? { ...s, reflection: reflectionText } : s
+            s.id === updatedSession.id 
+            ? { ...s, reflections: 
+              updatedSession.reflections, reflected: true }
+              : s
         )
     );
+    setReflectionOpen(false);
+    setReflectionSession(null);
 };
 
   const plannedSessions = sessions.filter(s => !s.completed);
@@ -102,10 +116,10 @@ export default function CreateSessionTest({ user }) {
       />
 
       <ReflectionPopUp
-        open={reflectionOpen}
-        onClose={() => setReflectionOpen(false)}
-        session={reflectionSession}
-        onSave={handleSaveReflection}
+       open={reflectionOpen}
+       onClose={() => setReflectionOpen(false)}
+       session={reflectionSession}
+       onSave={handleSaveReflection}
       />
 
       {/* Planned Sessions */}
