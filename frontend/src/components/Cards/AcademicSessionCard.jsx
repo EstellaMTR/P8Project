@@ -16,7 +16,7 @@ export default function AdacemicSessionCard({session}) {
   };
 
   return (
-    <Card sx={{ maxWidth: 400, margin: "20px auto", padding: 2 }}>
+    <Card sx={{ maxWidth: 400,  padding: 0 }}>
       <CardContent>
         <Typography variant="h5">{session.title}</Typography>
         <Typography variant="body2" color="text.secondary">

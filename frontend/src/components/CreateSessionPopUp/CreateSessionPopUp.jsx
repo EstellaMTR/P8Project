@@ -129,15 +129,16 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, session })
     };
 
     // Save session
+
+    const totalDurationMinutes = (parseInt(hours) * 60) + parseInt(minutes);
+
     const handleSave = () => {
         const data = {
-            id: session?.id || crypto.randomUUID(),
+            id: session?.id,
             title,
-            type,
-            goals,
-            estimatedTime: `${hours} h ${minutes} m`,
-            status: session?.status || "planned",
-            createdAt: session?.createdAt || Date.now(),
+            sessionType: type,
+            goals: goals.map(goal => ({goal})),
+            duration: totalDurationMinutes,
         };
 
         onCreate(data);   // parent decides if it's create or update
@@ -263,9 +264,9 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, session })
                     }}
                 >
                     {[
-                        { value: "Lecture", icon: <MenuBookIcon /> },
-                        { value: "Study", icon: <PsychologyIcon /> },
-                        { value: "Writing", icon: <EditNoteIcon /> },
+                        { value: "LECTURE", icon: <MenuBookIcon /> },
+                        { value: "STUDY", icon: <PsychologyIcon /> },
+                        { value: "WRITING", icon: <EditNoteIcon /> },
                     ].map((item) => (
                         <ToggleButton
                             key={item.value}
