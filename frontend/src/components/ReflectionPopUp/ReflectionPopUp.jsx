@@ -47,6 +47,15 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
     /* The third const is an array of reflections, where each reflection corresponds to a goal and contains the user's rating and answers to the reflection questions for that goal */
     const [reflections, setReflections] = useState([]);
 
+    const [errorOpen, setErrorOpen] = useState(false);
+    const [errorMessage, setErrorMessage] = useState("");
+
+    const closeErrorModal = () => setErrorOpen(false);
+    const showError = (message) => {
+        setErrorMessage(message);
+        setErrorOpen(true);
+    };
+    
     /* useEffect hook to initialize the reflections state when the session data is loaded or updated. 
     It checks if the session has goals and then maps over those goals to create an initial reflections array, 
     where each reflection object contains the goal, a null rating, and empty answers for the questions. 
@@ -117,7 +126,12 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
     If it is complete and there are more goals to reflect on (i. e., currentGoalIndex is less than the last index of the goals array), 
     it increments the currentGoalIndex by 1, allowing the user to move to the next goal's reflection. */
     const handleNext = () => {
-        if (!isCurrentGoalComplete) return;
+        if (!isCurrentGoalComplete) {
+            showError(
+                "Please answer all questions and choose a rating before moving to the next goal."
+            );
+            return;
+        }
         if (currentGoalIndex < session.goals.length - 1) {
             setCurrentGoalIndex((i) => i + 1);
         }
@@ -142,7 +156,12 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
     This function ensures that the user's reflections are saved properly before closing the dialog, 
     and it prevents closing the dialog if there are incomplete reflections. */
     const handleFinish = () => {
-        if (!isAllComplete) return;
+        if (!isAllComplete) {
+            showError(
+                "Please complete reflections for all goals before finishing."
+            );
+            return;
+        }
 
         onSave({
             ...session,
@@ -402,7 +421,6 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                         <Button
                             variant="contained"
                             onClick={handleNext}
-                            disabled={!isCurrentGoalComplete}
                             sx= {{
                             backgroundColor: "#14B8A6",
                             color: "white",
@@ -419,7 +437,6 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                         <Button
                             variant="contained"
                             onClick={handleFinish}
-                            disabled={!isAllComplete}
                             sx= {{
                                 backgroundColor: "#14B8A6",
                                 color: "white",
@@ -431,6 +448,49 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                         </Button>
                     )}
             </DialogActions>
+        </Dialog>
+
+        <Dialog
+            open={errorOpen}
+            onClose={closeErrorModal}
+            PaperProps={{
+                sx: {
+                    backgroundColor: "#456ebb",
+                    borderRadius: "16px",
+                    padding: "20px",
+                    width: "90%",
+                    maxWidth: "380px",
+                    textAlign: "center",
+                },
+            }}
+        >
+            <DialogContent>
+                <Typography
+                    sx={{
+                        color: "white",
+                        fontSize: "17px",
+                        fontWeight: 500,
+                        mb: 2,
+                    }}
+                >
+                    {errorMessage}
+                </Typography>
+
+                <DialogActions sx={{ justifyContent: "center" }}>
+                    <Button
+                        onClick={closeErrorModal}
+                        sx={{
+                            backgroundColor: "#14B8A6",
+                            color: "white",
+                            borderRadius: "10px",
+                            px: 4,
+                            "&:hover": { backgroundColor: "#0e8f81" },
+                        }}
+                    >
+                        OK
+                    </Button>
+                </DialogActions>
+            </DialogContent>
         </Dialog>
     </>
 );
