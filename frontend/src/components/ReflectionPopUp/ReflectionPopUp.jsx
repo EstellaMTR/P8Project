@@ -20,11 +20,11 @@ const ReflectionQuestions = {
 };
 
 const sentimentIcons = {
-    1: <SentimentVeryDissatisfiedIcon />,
-    2: <SentimentDissatisfiedIcon />,
-    3: <SentimentNeutralIcon />,
-    4: <SentimentSatisfiedIcon />,
-    5: <SentimentVerySatisfiedIcon />,
+    1: <SentimentVeryDissatisfiedIcon sx={{ fontSize: 40 }} />,
+    2: <SentimentDissatisfiedIcon sx={{ fontSize: 40 }} />,
+    3: <SentimentNeutralIcon sx={{ fontSize: 40 }} />,
+    4: <SentimentSatisfiedIcon sx={{ fontSize: 40 }} />,
+    5: <SentimentVerySatisfiedIcon sx={{ fontSize: 40 }} />,
 };
 
 function IconContainer(props) {
@@ -318,8 +318,12 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                     highlightSelectedOnly
                 />
 
+                <Typography>
+                    {ReflectionQuestions.q1}
+                </Typography>
+
                 <TextField
-                    label={ReflectionQuestions.q1}
+                    sx={{backgroundColor: "white"}}
                     multiline
                     minRows={3}
                     value={currentReflection.answers.q1}
@@ -333,9 +337,12 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                     }
                     fullWidth
                 />
+                <Typography>
+                    {ReflectionQuestions.q2}
+                </Typography>
 
                 <TextField
-                    label={ReflectionQuestions.q2}
+                    sx={{backgroundColor: "white"}}
                     multiline
                     minRows={3}
                     value={currentReflection.answers.q2}
