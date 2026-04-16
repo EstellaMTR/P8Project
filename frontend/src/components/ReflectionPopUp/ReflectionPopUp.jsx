@@ -52,7 +52,7 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
     where each reflection object contains the goal, a null rating, and empty answers for the questions. 
     This ensures that the reflection process is set up correctly based on the goals of the session. 
     The dependency array [session] means that this effect will run whenever the session prop changes 
-    (e.g., when a new session is loaded) */
+    (e. g., when a new session is loaded) */
     useEffect(() => {
         if (session?.goals) {
             setReflections(
@@ -77,7 +77,7 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
             : null;
 
     /* This function is used to update the reflection data for a specific goal. 
-    It takes in the index of the reflection to update and an object containing the updated fields (e.g., rating or answers). 
+    It takes in the index of the reflection to update and an object containing the updated fields (e. g., rating or answers). 
     The function uses the setReflections state updater to create a new reflections array, 
     where it maps over the existing reflections and updates the one at the specified index with the new fields, while keeping the other reflections unchanged. 
     This allows for efficient updates to the reflection data as the user interacts with the form. */
@@ -114,7 +114,7 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
     /* This function handles the action when the user clicks the "Next Goal" button. 
     It first checks if the current goal's reflection is complete using the isCurrentGoalComplete variable. 
     If it is not complete, it returns early and does nothing. 
-    If it is complete and there are more goals to reflect on (i.e., currentGoalIndex is less than the last index of the goals array), 
+    If it is complete and there are more goals to reflect on (i. e., currentGoalIndex is less than the last index of the goals array), 
     it increments the currentGoalIndex by 1, allowing the user to move to the next goal's reflection. */
     const handleNext = () => {
         if (!isCurrentGoalComplete) return;
@@ -368,10 +368,14 @@ export default function ReflectionPopUp({ open, onClose, session, onSave }) {
                     paddingBottom: 2,
                 }}
                 >
-                {step === 1 && (
+                {step === 1 && currentGoalIndex > 0 &&(
                     <Button
+                        variant="contained"
                         onClick={handlePrevious}
                         disabled={currentGoalIndex === 0}
+                        sx={{
+                            borderRadius: "999px",
+                        }}
                     >
                         Previous
                     </Button>
