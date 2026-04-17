@@ -34,7 +34,7 @@ function IconContainer(props) {
 
 export default function ReflectionPopUp({ open, onClose, session, onSave }) {
 
-if (!open || !session) {
+if (!session) {
     return null;
 }
 

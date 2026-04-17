@@ -174,7 +174,7 @@ export default function SessionCard({ session, onEdit, onDelete, onFinish, onSta
                         variant="contained"
                         onClick={() => {
                             if (session.state == "CREATED") {
-                                onFinish(session.id);
+                                onFinish(session);
                                 return;
                             }
 
@@ -193,11 +193,16 @@ export default function SessionCard({ session, onEdit, onDelete, onFinish, onSta
                             boxShadow: "0px 2px 4px rgba(0,0,0,0.15)",
                         }}
                     >
-                        {!session.state == "CREATED" 
+                        {session.state === "CREATED"
+                            ? "Start Reflection"
+                            : session.state === "PENDING_REFLECTION"
+                                ? "View or edit Reflection"
+                                : "Finish"}
+                        {/* {!session.state == "CREATED" 
                         ? "Finish" 
                         : session.state == "PENDING_REFLECTION"
                             ? "View or edit Reflection"
-                            : "Start Reflection"}
+                            : "Start Reflection"} */}
                     </Button>
                 </Box>
             </CardActions>

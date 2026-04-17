@@ -140,6 +140,11 @@ export default function Homepage({user}) {
             })
         };
 
+        const handleFinish = (session) => {
+            changeState(session.id);
+            setReflectionSession(session);
+            setReflectionOpen(true);
+        }
        
 
         const handleStartReflection = (session) => {
@@ -254,7 +259,7 @@ export default function Homepage({user}) {
                               session={session}
                               onEdit={handleEdit}
                               onDelete={handleDelete}
-                              onFinish={changeState}
+                              onFinish={handleFinish}
                               onStartReflection={handleStartReflection}
                             />
                             </Paper>
@@ -283,7 +288,7 @@ export default function Homepage({user}) {
                               session={session}
                               onEdit={handleEdit}
                               onDelete={handleDelete}
-                              onFinish={changeState}
+                              onFinish={handleFinish}
                               onStartReflection={handleStartReflection}
                             />
                             </Paper>
