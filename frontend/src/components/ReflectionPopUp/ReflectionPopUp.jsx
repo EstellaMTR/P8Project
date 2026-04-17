@@ -34,7 +34,7 @@ function IconContainer(props) {
 
 export default function ReflectionPopUp({ open, onClose, session, onSave }) {
 
-if (!open) {
+if (!open || !session) {
     return null;
 }
 
@@ -265,7 +265,7 @@ if (!open) {
                                     justifyContent: "center",
                                 }}
                         >
-                                {goal}
+                                {goal.goal}
                             </Box>
                         ))}
 

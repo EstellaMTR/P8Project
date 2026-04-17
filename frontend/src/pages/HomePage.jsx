@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Box, Typography, Paper, Card, CardActions, CardContent, List } from "@mui/material";
 import CreateSessionPopUp from "../components/CreateSessionPopUp/CreateSessionPopUp.jsx"; //this is our popup component
+import ReflectionPopUp from "../components/ReflectionPopUp/ReflectionPopUp.jsx";
 import SessionCard from "../components/SessionCard/SessionCard.jsx"; //this is our session card component
 import { HamburgerMenu } from "../components/HamburgerMenu/HamburgerMenu.jsx";
 import AcademicSessionCard from "../components/Cards/academicSessionCard.jsx";
@@ -34,6 +35,12 @@ export default function Homepage({user}) {
     const [editingSession, setEditingSession] = useState(null);
 
     const [open, setOpen] = useState(false);
+
+    const [reflectionOpen, setReflectionOpen] = useState(false);
+    
+    const [reflectionSession, setReflectionSession] = useState(null);
+    
+
 
     const handleSave = (session) => { 
         const createRequest = new CreateRequest()
@@ -136,6 +143,7 @@ export default function Homepage({user}) {
        
 
         const handleStartReflection = (session) => {
+            changeState(session.id)
             setReflectionSession(session);
             setReflectionOpen(true);
         };
@@ -259,6 +267,14 @@ export default function Homepage({user}) {
         <BackgroundBox cardContent={
             <>
             <Typography variant="h4" >Ready for Reflection</Typography>
+
+            <ReflectionPopUp
+            open={reflectionOpen}
+            onClose={() => setReflectionOpen(false)}
+            session={reflectionSession}
+            onSave={handleSaveReflection}
+                    />
+
             <List>
                  {sessions.filter(session => session.state === "PENDING_REFLECTION").map((session) => (
                     // <AcademicSessionCard key={session.id} session={session} />
