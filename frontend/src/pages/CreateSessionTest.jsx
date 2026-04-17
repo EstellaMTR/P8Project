@@ -3,8 +3,10 @@ import { useState } from "react";
 import SessionCard from "../components/SessionCard/SessionCard.jsx";
 import CreateSessionPopUp from "../components/CreateSessionPopUp/CreateSessionPopUp.jsx";
 import ReflectionPopUp from "../components/ReflectionPopUp/ReflectionPopUp.jsx";
+import { HamburgerMenu } from '../components/HamburgerMenu/HamburgerMenu'
 
-export default function CreateSessionTest() {
+export default function CreateSessionTest({ user }) {
+  console.log("Logged in as:", user.name);
   const [sessions, setSessions] = useState([]);
   const [open, setOpen] = useState(false);
   const [editingSession, setEditingSession] = useState(null);
@@ -15,7 +17,9 @@ export default function CreateSessionTest() {
   const handleSave = (sessionData) => {
     if (editingSession) {
       setSessions(prev =>
-        prev.map(s => s.id === sessionData.id ? sessionData : s)
+        prev.map(s => s.id === sessionData.id
+           ? { ...s,...sessionData }
+          : s)
       );
     } else {
       setSessions(prev => [
@@ -49,22 +53,36 @@ export default function CreateSessionTest() {
   };
 
   const handleStartReflection = (session) => {
-    setReflectionSession(session);
-    setReflectionOpen(true);
-};
+    setReflectionSession(null);
+    setReflectionOpen(false);
 
-  const handleSaveReflection = (id, reflectionText) => {
+
+
+    setTimeout(() => {
+      setReflectionSession(session);
+      setReflectionOpen(true);
+    }, 0);
+  };
+
+  const handleSaveReflection = (updatedSession) => {
     setSessions(prev =>
         prev.map(s =>
-            s.id === id ? { ...s, reflection: reflectionText } : s
+            s.id === updatedSession.id 
+            ? { ...s, reflections: 
+              updatedSession.reflections, reflected: true }
+              : s
         )
     );
+    setReflectionOpen(false);
+    setReflectionSession(null);
 };
 
   const plannedSessions = sessions.filter(s => !s.completed);
   const completedSessions = sessions.filter(s => s.completed);
 
   return (
+  <>
+    <HamburgerMenu />
     <Box sx={{ p: 4 }}>
       {/* Create button */}
       <button
@@ -98,10 +116,10 @@ export default function CreateSessionTest() {
       />
 
       <ReflectionPopUp
-        open={reflectionOpen}
-        onClose={() => setReflectionOpen(false)}
-        session={reflectionSession}
-        onSave={handleSaveReflection}
+       open={reflectionOpen}
+       onClose={() => setReflectionOpen(false)}
+       session={reflectionSession}
+       onSave={handleSaveReflection}
       />
 
       {/* Planned Sessions */}
@@ -146,5 +164,6 @@ export default function CreateSessionTest() {
         </Paper>
       ))}
     </Box>
+    </>
   );
 }

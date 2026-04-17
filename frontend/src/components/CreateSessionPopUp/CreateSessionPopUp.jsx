@@ -24,9 +24,8 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import PsychologyIcon from "@mui/icons-material/Psychology";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 
-import { useState, useEffect } from "react";     
-
 // To make sure values can change without error, we need to set up state for each input field and goal list
+import { useState, useEffect } from "react";     
 
 // Defines and exports a React component that takes the props open, onClose, and onCreate as its inputs
 export default function CreateSessionPopUp({ open, onClose, onCreate, onEdit, session }) {
@@ -123,7 +122,10 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, onEdit, se
             title: title.trim(),
             type,
             goals,
-            duration: { hours, minutes },
+            duration: { 
+            hours: hours ?? session.duration?.hours ?? 0,
+            minutes: minutes ?? session.duration?.minutes ?? 0,
+            },
             status: "planned",
             createdAt: Date.now(),
         });
@@ -170,12 +172,22 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, onEdit, se
         setInputVisible(true);
     };
 
-    // Ensures hours and minutes stay within valid ranges and are always 2 digits
-    const validateHours = (v) =>
-        v < 0 ? "00" : v > 24 ? "24" : v.toString().padStart(2, "0");
+    // Ensures that hours and minutes are formatted after the user finishes typing
+    const formatHours = (value) => {
+        const num = Number(value);
+        if (isNaN(num) || num < 0) return "00";
+        if (num > 24) return "24";
+        return num.toString().padStart(2, "0");
+    }
+    
 
-    const validateMinutes = (v) =>
-        v < 0 ? "00" : v > 59 ? "59" : v.toString().padStart(2, "0");
+
+    const formatMinutes = (value) => {
+        const num = Number(value);
+        if (isNaN(num) || num < 0) return "00";
+        if (num > 59) return "59";
+        return num.toString().padStart(2, "0");
+    };
 
     return (
         <>
@@ -211,7 +223,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, onEdit, se
                     onChange={(e) => {
                         if (e.target.value.length <= 30) setTitle(e.target.value);
                     }}
-                    placeholder="New Session"
+                    placeholder="Write the name of your session here..."
                     InputProps={{
                         sx: {
                             backgroundColor: "white",
@@ -260,7 +272,13 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, onEdit, se
                         Pick a session type
                     </Typography>
 
-                    <Tooltip title="(Add explanation text here later)" arrow>
+                    <Tooltip title={
+                        <div>
+                            Lecture refers to time spent in classes/teaching, whether online or physical. <br />
+                            Study refers to all study related activities i.e reading, completing homework/exercises, watching videos, taking quizzes etc. <br />
+                            Writing refers to time spent writing papers, essays, reports, thesis etc.
+                        </div>
+                    } arrow>
                         <HelpOutlineIcon
                             sx={{ fontSize: 20, color: "#14B8A6", cursor: "pointer" }}
                         />
@@ -343,7 +361,15 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, onEdit, se
                         My goals for this session are...
                     </Typography>
 
-                    <Tooltip title="(Add explanation text here later)" arrow>
+                    <Tooltip title={
+                        <div>
+                            Here you write what goal(s) you want to achieve in this session. <br />
+                            The more specific the better. <br />
+                            Examples could be: Read and summarize Chapter 3, write 500 words of the introduction <br />
+                            or outline the main arguments in the paper you are writing. <br />
+                            You can add up to 3 goals for each session, and you can edit them by clicking the pencil icon next to each goal.
+                        </div>
+                    } arrow>
                         <HelpOutlineIcon
                             sx={{ fontSize: 20, color: "#14B8A6", cursor: "pointer" }}
                         />
@@ -428,7 +454,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, onEdit, se
                         <TextField
                             fullWidth
                             autoFocus
-                            placeholder="Write your goal here and press enter..."
+                            placeholder="Write your goal here..."
                             value={newGoal}
                             onChange={(e) => {
                                 if (e.target.value.length <= 110) {
@@ -436,6 +462,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, onEdit, se
                                 }
                             }}
                             onKeyDown={(e) => e.key === "Enter" && addGoal()}
+                            onBlur={addGoal}
                             multiline
                             InputProps={{
                                 endAdornment: <FlagIcon sx={{ color: "#456ebb" }} />,
@@ -510,7 +537,11 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, onEdit, se
                     <TextField
                         type="number"
                         value={hours}
-                        onChange={(e) => setHours(validateHours(e.target.value))}
+                        onFocus={ () => {
+                            if (hours === "00") setHours("");
+                        }}
+                        onChange={(e) => setHours(e.target.value)}
+                        onBlur={ () => setHours(formatHours(hours))}
                         sx={{
                             width: "80px",
                             backgroundColor: "white",
@@ -530,7 +561,12 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, onEdit, se
                     <TextField
                         type="number"
                         value={minutes}
-                        onChange={(e) => setMinutes(validateMinutes(e.target.value))}
+                        onFocus={() => {
+                            if (minutes === "00") setMinutes("");
+                        }}
+                        onBlur={() => setMinutes(formatMinutes(minutes))}
+
+                        onChange={(e) => setMinutes(e.target.value)}
                         sx={{
                             width: "80px",
                             backgroundColor: "white",
@@ -544,10 +580,11 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, onEdit, se
                     />
                 </Stack>
 
-                {/* The "Done" button at the bottom of the popup triggers the handleCreate function, which validates the input and creates the session if everything is in order. It is styled to stand out and encourage the user to complete the session creation process. */}
+                {/* The "Done" button at the bottom of the popup triggers the handleCreate function, which validates the input and creates the session if everything is in order. 
+                It is styled to stand out and encourage the user to complete the session creation process. */}
                 <Button
                     variant="contained"
-                    onClick={handleSave}
+                    onClick={handleCreate}
                     sx={{
                         backgroundColor: "#14B8A6",
                         mt: 4,

@@ -58,14 +58,24 @@ export default function SessionManager() {
     const handleStartReflection = (session) => {
         setReflectionSession(session);
         setReflectionOpen(true);
+    
     };
 
-    const handleSaveReflection = (id, reflectionText) => {
+    const handleSaveReflection = (updatedSession) => {
         setSessions(prev =>
             prev.map(s =>
-                s.id === id ? { ...s, reflection: reflectionText } : s
+                s.id === updatedSession.id 
+                ? {
+                    ...s,
+                    reflections: updatedSession.reflections,
+                    reflected: true,
+                    completed: true
+                }   
+                : s
             )
         );
+        setReflectionOpen(false);
+        setReflectionSession(null);
     };
 
     return (
