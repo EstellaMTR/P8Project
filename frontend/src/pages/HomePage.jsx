@@ -24,8 +24,8 @@ import BackgroundBox from "../components/Cards/BackgroundBox.jsx";
     // JSON.stringify
 
 
-export default function Homepage() {
-    const userId = 1;
+export default function Homepage({user}) {
+    const userId = user.id;
     
     const [name, setName] = useState("");
 
@@ -280,5 +280,3 @@ export default function Homepage() {
 
     </>
 }
-
-

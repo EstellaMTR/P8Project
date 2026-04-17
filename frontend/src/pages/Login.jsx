@@ -1,32 +1,51 @@
 import { useState } from "react";
 import { Box, TextField, Button, Typography, Paper } from "@mui/material";
+import {AcademicSessionControllerApi, UserControllerApi, LoginRequest} from "../api/src/index.js"
+
 
 export default function Login({ onLogin }) {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
+    
+    const loginRequest = new LoginRequest();
+    loginRequest.name = name;      // hint: it's a state variable
+    loginRequest.password = password;  // hint: it's a state variable
+    
+    new UserControllerApi().login(loginRequest, (error, data, response) => {
+        if (error) {
+            console.error(error);
+        } else {
+            onLogin(data);  // hint: what did the backend return?
+            console.log("Successfully logged in: " + data.name);
+        }
+    });
+};
+   
 
-    try {
-      const response = await fetch("http://localhost:8080/api/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, password }),
-      });
 
-      if (!response.ok) {
-        setError("Invalid username or password");
-        return;
-      }
 
-      const user = await response.json();
-      onLogin(user); // pass user to parent
-    } catch (err) {
-      setError("Something went wrong");
-    }
-  };
+    // try {
+    //   const response = await fetch("http://localhost:8080/api/users/login", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify({ name, password }),
+    //   });
+
+    //   if (!response.ok) {
+    //     setError("Invalid username or password");
+    //     return;
+    //   }
+
+    //   const user = await response.json();
+    //   onLogin(user); // pass user to parent
+    // } catch (err) {
+    //   setError("Something went wrong");
+    // }
+  
 
   return (
     <Box sx={{ 

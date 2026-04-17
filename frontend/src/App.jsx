@@ -6,6 +6,7 @@ import { HamburgerMenu } from './components/HamburgerMenu/HamburgerMenu'
 
 import Login from "./pages/Login.jsx";import Homepage from './pages/HomePage'
 import HomePage from "./pages/HomePage.jsx";
+import { LoginRequest, UserControllerApi } from './api/src/index.js';
 
 export default function App() {
   const [user, setUser] = useState(() => {
@@ -15,8 +16,7 @@ export default function App() {
 
   const handleLogin = (userData) => {
     setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
-  };
+};
 
   return (
     <>

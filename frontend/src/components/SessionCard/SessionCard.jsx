@@ -144,7 +144,7 @@ export default function SessionCard({ session, onEdit, onDelete, onFinish, onSta
             </Box>
 
                 <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                    {!session.completed && (
+                    {session.state == "CREATED" && (
                         <Button
                             variant="contained"
                             onClick={() => setConfirmDeleteOpen(true)}
