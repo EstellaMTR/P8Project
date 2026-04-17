@@ -1,5 +1,6 @@
 package dk.StudyBobby.backend.entities;
 
+import dk.StudyBobby.backend.entities.AcademicSession;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 

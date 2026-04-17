@@ -29,6 +29,7 @@ export default function SessionCard({ session, onEdit, onDelete, onFinish, onSta
         setExpanded(!expanded);
     };
 
+
   if (!session) return null; // safety guard
 
   return (
@@ -60,7 +61,7 @@ export default function SessionCard({ session, onEdit, onDelete, onFinish, onSta
                 </Typography>
             </Box>
 
-            {!session.completed && (
+            {session.state == "CREATED" && (
                 <IconButton 
                     sx={{ color: "#F4F7FF" }}
                     onClick={() => onEdit(session)}

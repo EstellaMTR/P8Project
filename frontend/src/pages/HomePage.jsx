@@ -5,7 +5,7 @@ import SessionCard from "../components/SessionCard/SessionCard.jsx"; //this is o
 import { HamburgerMenu } from "../components/HamburgerMenu/HamburgerMenu.jsx";
 import AcademicSessionCard from "../components/Cards/academicSessionCard.jsx";
 // import {UserControllerApi} from "../api/src/api/UserControllerApi.js"
-import {CreateRequest, UserControllerApi} from "../api/src/index.js"
+import {ChangeStateRequest, CreateRequest, EditRequest, UserControllerApi} from "../api/src/index.js"
 import {AcademicSessionControllerApi} from "../api/src/index.js"
 import BackgroundBox from "../components/Cards/BackgroundBox.jsx";
 
@@ -31,7 +31,7 @@ export default function Homepage() {
 
     const [sessions, setSessions] = useState([]);
 
-    const [editingSession, setEditingSession] = useState(false);
+    const [editingSession, setEditingSession] = useState(null);
 
     const [open, setOpen] = useState(false);
 
@@ -62,40 +62,83 @@ export default function Homepage() {
         });
     }
 
-                // Delete
-            const handleDelete = (id) => {
-                setSessions(prev => prev.filter(s => s.id !== id));
-            };
+     // Edit
+        const handleEdit = (session) => {
+            console.log("Editing session with id: " + session.id);
+            console.log(JSON.stringify(session));
+            setEditingSession(session);
+            setOpen(true);
+            return;
+         }
 
-            // Finish
-            const handleFinish = (id) => {
-                setSessions(prev =>
-                prev.map(s =>
-                    s.id === id ? { ...s, completed: true } : s
-                )
+         const handleEditSave = (session) => {
+            const editRequest = new EditRequest();
+            editRequest.userId = userId;
+            editRequest.academicSessionId = session.id;
+            editRequest.title = session.title;
+            editRequest.goals = session.goals;
+            editRequest.sessionType = session.sessionType;
+            editRequest.duration = session.duration;
+            editRequest.state = session.state;
+            
+            new AcademicSessionControllerApi().edit1(editRequest, (error, data, response) => {
+                if (error) {
+                    console.log(JSON.stringify(data));
+                    console.error(error);
+                } else {
+                    setSessions(prev =>
+                        prev.map(s =>
+                            s.id === session.id ? data : s
+                        )
+                    );
+                    console.log('API called successfully. Edited session data: ' + JSON.stringify(data));
+                }
+            // setEditingSession(session);
+            // setOpen(true);
+            });
+         }
+
+            // Delete
+        const handleDelete = (id) => {
+            setSessions(prev => prev.filter(s => s.id !== id));
+        };
+
+        // Change State
+        const changeState = (id) => {
+            const changeStateRequest = new ChangeStateRequest();
+            changeStateRequest.academicSessionId = id;
+
+            new AcademicSessionControllerApi().edit2(changeStateRequest, (error, data, response) => {
+                if (error) {
+                    console.log(JSON.stringify(data));
+                    console.error(error);
+                } else {
+                    console.log("Changed state to: " + data.state);
+                    setSessions(prev =>
+                    prev.map(s =>
+                        s.id === id ? data : s
+                    )
                 );
-            };
+                }
+            })
+        };
 
-            // Edit
-            const handleEdit = (session) => {
-                setEditingSession(session);
-                setOpen(true);
-            };
+       
 
-             const handleStartReflection = (session) => {
-    setReflectionSession(session);
-    setReflectionOpen(true);
-};
+        const handleStartReflection = (session) => {
+            setReflectionSession(session);
+            setReflectionOpen(true);
+        };
 
-  const handleSaveReflection = (id, reflectionText) => {
-    setSessions(prev =>
-        prev.map(s =>
-            s.id === id ? { ...s, reflection: reflectionText } : s
-        )
-    );
-};
+        const handleSaveReflection = (id, reflectionText) => {
+            setSessions(prev =>
+                prev.map(s =>
+                    s.id === id ? { ...s, reflection: reflectionText } : s
+                )
+            );
+        };
 
-                
+            
 
     
     useEffect(() => {
@@ -120,6 +163,19 @@ export default function Homepage() {
         }
         });
     },[])
+
+    //     useEffect(() => {
+    //     new AcademicSessionControllerApi().getBy(userId, (error, data, response) => {
+    //     if (error) {
+    //         console.error(error);
+    //     } else {
+    //         //for (let i = 0; i < data)
+    //         setSessions(data)
+    //         console.log('API called successfully. Returned sessions: ' + JSON.stringify(data));
+    //     }
+    //     });
+    // },[])
+    
     
     
 
@@ -167,21 +223,22 @@ export default function Homepage() {
                 setOpen(false);
                 setEditingSession(null);
             }}
+            onEdit={handleEditSave}
             onCreate={handleSave}
             session={editingSession}
             />
 
             <List>
-                {sessions.map((session) => (
+                {sessions.filter(session => session.state === "CREATED").map((session) => (
                     // <AcademicSessionCard key={session.id} session={session} />
                      <Paper key={session.id} sx={{ p: 2, mt: 2 }}>
-                              <SessionCard
-                                session={session}
-                                onEdit={handleEdit}
-                                onDelete={handleDelete}
-                                onFinish={handleFinish}
-                                onStartReflection={handleStartReflection}
-                              />
+                            <SessionCard
+                              session={session}
+                              onEdit={handleEdit}
+                              onDelete={handleDelete}
+                              onFinish={changeState}
+                              onStartReflection={handleStartReflection}
+                            />
                             </Paper>
                 ))}
             </List>
@@ -193,8 +250,17 @@ export default function Homepage() {
             <>
             <Typography variant="h4" >Ready for Reflection</Typography>
             <List>
-                {sessions.map((session) => (
-                    <AcademicSessionCard key={session.id} session={session} />
+                 {sessions.filter(session => session.state === "PENDING_REFLECTION").map((session) => (
+                    // <AcademicSessionCard key={session.id} session={session} />
+                     <Paper key={session.id} sx={{ p: 2, mt: 2 }}>
+                            <SessionCard
+                              session={session}
+                              onEdit={handleEdit}
+                              onDelete={handleDelete}
+                              onFinish={changeState}
+                              onStartReflection={handleStartReflection}
+                            />
+                            </Paper>
                 ))}
             </List>
             </>

@@ -29,7 +29,7 @@ import { useState, useEffect } from "react";
 // To make sure values can change without error, we need to set up state for each input field and goal list
 
 // Defines and exports a React component that takes the props open, onClose, and onCreate as its inputs
-export default function CreateSessionPopUp({ open, onClose, onCreate, session }) {
+export default function CreateSessionPopUp({ open, onClose, onCreate, onEdit, session }) {
 
     // Initial state for all fields - used for resetting the popup after creation or closing
     const initialState = {
@@ -61,11 +61,14 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, session })
     // Resets all fields and states to their initial values when the popup is closed or after a session is created
     useEffect(() => {
     if (session) {
+        console.log("Editing session in create popup!");
         setTitle(session.title);
-        setType(session.type);
+        setType(session.sessionType);
         setGoals(session.goals);
-        setHours(session.duration?.hours || "00");
-        setMinutes(session.duration?.minutes || "00");
+
+        let duration = parseInt(session.duration); 
+        setHours(duration / 60);
+        setMinutes(duration % 60);
     } else {
         // If no session is passed, reset to initial state (create mode)
         resetPopup();
@@ -129,22 +132,36 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, session })
     };
 
     // Save session
-
-    const totalDurationMinutes = (parseInt(hours) * 60) + parseInt(minutes);
-
     const handleSave = () => {
+        let h = 0;
+        let min = 0;
+        try {
+            h = parseInt(hours);
+            min = parseInt(minutes);
+        } catch {
+            console.error("Invalid duration input");
+        }
+
         const data = {
             id: session?.id,
-            title,
+            title: title,
+            state: session?.state,
             sessionType: type,
-            goals: goals.map(goal => ({goal})),
-            duration: totalDurationMinutes,
+            goals: goals.map(g => ({ id: g.id, goal: g.goal })),
+            duration: (h * 60) + min,
         };
 
-        onCreate(data);   // parent decides if it's create or update
+        if (session == null) {
+            onCreate(data);  // create new session
+        }
+        else {
+            onEdit(data);    // update existing session
+        }
         resetPopup();
         onClose();
     };
+
+
 
     // When the user clicks the "+" button to add a new goal this function checks if there's any text in the new goal input. 
     // If there is, it adds that goal to the list before showing the input field for the next goal.
@@ -334,9 +351,9 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, session })
                 </Box>
 
                 <Stack spacing={1} sx={{ mt: 2 }}>
-                    {goals.map((g, i) => (
+                    {goals.map(goal => (
                         <Box
-                            key={i}
+                            key={goal.id}
                             sx={{
                                 display: "flex",
                                 alignItems: "center",
@@ -351,7 +368,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, session })
                             <FlagIcon sx={{ mr: 1, color: "#456ebb" }} />
 
                             {/* If the current goal is being edited, show a TextField. Otherwise, show the goal text with an edit icon. */}
-                            {editingIndex === i ? (
+                            {editingIndex === goal.id ? (
                                 <TextField
                                     autoFocus
                                     value={editingText}
@@ -362,8 +379,8 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, session })
                                     }}
                                     onKeyDown={(e) => {
                                         if (e.key === "Enter") {
-                                            const updated = [...goals];
-                                            updated[i] = editingText;
+                                            const updated = goals.map(g => 
+                                                g.id === goal.id ? { id: g.id, goal: editingText } : g);
                                             setGoals(updated);
                                             setEditingIndex(null);
                                         }
@@ -385,15 +402,15 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, session })
                                         wordBreak: "break-word",
                                     }}
                                 >
-                                    {g}
+                                    {goal.goal}
                                 </Typography>
                             )}
 
                             {/* The edit icon allows the user to click and edit an existing goal. When clicked, it sets the editing index and text to the current goal. */}
                             <EditIcon
                                 onClick={() => {
-                                    setEditingIndex(i);
-                                    setEditingText(g);
+                                    setEditingIndex(goal.id);
+                                    setEditingText(goal.goal);
                                 }}
                                 sx={{
                                     color: "#14B8A6",
