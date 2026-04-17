@@ -100,7 +100,17 @@ export default function Homepage() {
 
             // Delete
         const handleDelete = (id) => {
-            setSessions(prev => prev.filter(s => s.id !== id));
+            new AcademicSessionControllerApi().callDelete(id,(error, data, response) => {
+                if (error) {
+                    console.error(error);
+                }
+                else {
+                    console.log("Academic Session was deleted succesfully!")
+                    setSessions(prev => prev.filter(s => s.id !== id));
+                }
+            } 
+        
+        ) 
         };
 
         // Change State

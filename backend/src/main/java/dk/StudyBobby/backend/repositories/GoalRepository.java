@@ -12,6 +12,6 @@ public interface GoalRepository extends JpaRepository<Goal, Long> {
     List<Goal> findByAcademicSession_UserId(Long userId);
     List<Goal> findByAcademicSession_Id(Long sessionId);
 
-    @Query("delete * FROM goals where acedemic_session_id = {}")
-    void deleteALlForAcedemicSession(Long sessionId);
+//    @Query("delete * FROM goals where acedemic_session_id = {}")
+//    void deleteALlForAcedemicSession(Long sessionId);
 }

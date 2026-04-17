@@ -119,7 +119,7 @@ public class AcademicSessionService {
         // saving update of Academic Session in Academic Session repo
         session = sessionRepo.save(session);
 
-        goalRepo.deleteAllWhereAcemeicUserIdIsMyCurrentIdPleaseAndThankYou();
+//        goalRepo.deleteAllWhereAcemeicUserIdIsMyCurrentIdPleaseAndThankYou();
         // For-each Loop that updates each goal, depending on how many goals are passed from DTO
         for (Goal g : request.getGoals()) {
             Goal goal = new Goal();
