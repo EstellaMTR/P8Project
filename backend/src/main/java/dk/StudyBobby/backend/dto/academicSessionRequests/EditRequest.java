@@ -2,9 +2,9 @@
 package dk.StudyBobby.backend.dto.academicSessionRequests;
 
 // importing tools from our own packages
-import dk.StudyBobby.backend.dto.goalRequests.GoalCreateRequest;
 import dk.StudyBobby.backend.enums.SessionState;
 import dk.StudyBobby.backend.enums.SessionType;
+import dk.StudyBobby.backend.entities.Goal;
 
 // importing tools from pre-existing packages
 import java.util.List;
@@ -21,7 +21,7 @@ public class EditRequest {
 
     // Also part of instance variables
     // but is a list of goals of other DTO class GoalCreateRequest
-    private List<GoalCreateRequest> goals;
+    private List<Goal> goals;
 
     // METHODS - GETTERS AND SETTERS
     // get the current Academic Session's ID
@@ -77,12 +77,12 @@ public class EditRequest {
     }
 
     // get the list of goals for Academic Session
-    public List<GoalCreateRequest> getGoals() {
+    public List<Goal> getGoals() {
         return goals;
     }
 
     // set the list of goals for Academic Session
-    public void setGoals(List<GoalCreateRequest> goals) {
+    public void setGoals(List<Goal> goals) {
         this.goals = goals;
     }
 

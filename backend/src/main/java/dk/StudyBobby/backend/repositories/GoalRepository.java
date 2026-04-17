@@ -2,6 +2,7 @@ package dk.StudyBobby.backend.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import dk.StudyBobby.backend.entities.Goal;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
@@ -10,4 +11,7 @@ import java.util.List;
 public interface GoalRepository extends JpaRepository<Goal, Long> {
     List<Goal> findByAcademicSession_UserId(Long userId);
     List<Goal> findByAcademicSession_Id(Long sessionId);
+
+//    @Query("delete * FROM goals where acedemic_session_id = {}")
+//    void deleteALlForAcedemicSession(Long sessionId);
 }

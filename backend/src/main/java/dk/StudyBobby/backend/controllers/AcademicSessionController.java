@@ -56,7 +56,7 @@ public class AcademicSessionController {
             @ApiResponse(responseCode = "404", description = "User with userId not found")
     })
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<AcademicSession>> getByUserId(Long userId) {
+    public ResponseEntity<List<AcademicSession>> getByUserId(@PathVariable Long userId) {
         try {
             return ResponseEntity.ok(service.getByUserId(userId));
         } catch (ResponseStatusException exception) {
