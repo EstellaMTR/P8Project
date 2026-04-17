@@ -5,7 +5,7 @@ import './App.css'
 import { HamburgerMenu } from './components/HamburgerMenu/HamburgerMenu'
 
 import Login from "./pages/Login.jsx";import Homepage from './pages/HomePage'
-import CreateSessionTest from "./pages/CreateSessionTest.jsx";
+import HomePage from "./pages/HomePage.jsx";
 
 export default function App() {
   const [user, setUser] = useState(() => {
@@ -23,7 +23,7 @@ export default function App() {
       {!user ? (
         <Login onLogin={handleLogin} />
       ) : (
-        <CreateSessionTest user={user} /> 
+        <HomePage user={user} /> 
       )}
     </>
   );
