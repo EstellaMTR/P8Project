@@ -9,6 +9,7 @@ import AcademicSessionCard from "../components/Cards/academicSessionCard.jsx";
 import {ChangeStateRequest, CreateRequest, EditRequest, UserControllerApi} from "../api/src/index.js"
 import {AcademicSessionControllerApi} from "../api/src/index.js"
 import BackgroundBox from "../components/Cards/BackgroundBox.jsx";
+import { ReflectionAnswerControllerApi, ReflectionAnswerCreateRequest } from "../api/src/index.js";
 
 
 // HOW TO TALK TO THE SERVER AND GET THINGS FROM IT
@@ -153,15 +154,28 @@ export default function Homepage({user}) {
             setReflectionOpen(true);
         };
 
-        const handleSaveReflection = (id, reflectionText) => {
-            setSessions(prev =>
-                prev.map(s =>
-                    s.id === id ? { ...s, reflection: reflectionText } : s
-                )
-            );
-        };
+        const handleSaveReflection = (sessionWithReflections) => {
+    
+            const { reflections } = sessionWithReflections;
 
-            
+            reflections.forEach((reflection) => {
+            const request = new ReflectionAnswerCreateRequest();
+            request.goalId = reflection.goal.id;
+            request.reflectionAnswer1 = reflection.answers.q1;
+            request.reflectionAnswer2 = reflection.answers.q2;
+            request.reflectionAnswer3 = String(reflection.rating);
+
+            new ReflectionAnswerControllerApi().create1(request, (error, data, response) => {
+                if (error) {
+                    console.error("Failed to save reflection:", error);
+                } else {
+                    console.log("Reflection saved:", JSON.stringify(data));
+                }
+            });
+        });
+    };
+
+                
 
     
     useEffect(() => {
@@ -271,7 +285,7 @@ export default function Homepage({user}) {
         
         <BackgroundBox cardContent={
             <>
-            <Typography variant="h4" >Ready for Reflection</Typography>
+            <Typography variant="h4" >Finished Sessions</Typography>
 
             <ReflectionPopUp
             open={reflectionOpen}
@@ -281,7 +295,7 @@ export default function Homepage({user}) {
                     />
 
             <List>
-                 {sessions.filter(session => session.state === "PENDING_REFLECTION").map((session) => (
+                 {sessions.filter(session => session.state === "PENDING_REFLECTION" || session.state === "ARCHIVED").map((session) => (
                     // <AcademicSessionCard key={session.id} session={session} />
                      <Paper key={session.id} sx={{ p: 2, mt: 2 }}>
                             <SessionCard

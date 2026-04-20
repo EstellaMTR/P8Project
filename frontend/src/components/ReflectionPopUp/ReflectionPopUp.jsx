@@ -318,7 +318,7 @@ if (!session) {
                     }}
              >
                     <FlagIcon />
-                     {session.goals[currentGoalIndex]}
+                     {session.goals[currentGoalIndex].goal}
                 </Box>
                 
                 <Typography>
