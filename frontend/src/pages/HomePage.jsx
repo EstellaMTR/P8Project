@@ -224,7 +224,9 @@ export default function Homepage({user}) {
 
     <HamburgerMenu /> 
 
-    <h1> Hello {name}</h1>
+    <Box sx={{display: "flex", justifyContent: "center", mt: 4}}>
+        <h1> Hello {name}</h1>
+    </Box>
 
     <Box sx={{
         display: "flex",
