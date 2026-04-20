@@ -169,36 +169,35 @@ export default function SessionCard({ session, onEdit, onDelete, onFinish, onSta
                                 <DeleteIcon/>
                             </Button>
                     )}
-
-                    <Button
-                        variant="contained"
-                        onClick={() => {
-                            if (!session.completed) {
-                                onFinish(session.id);
-                                return;
-                            }
-
-                            onStartReflection(session);
-                        }}
-                        sx={{
-                            minWidth: "48px",
-                            height: "48px",
-                            bgcolor: "#14B8A6",
-                            textTransform: "none",
-                            fontWeight: 600,
-                            borderRadius: "12px",
-                            p: 2,
-                            fontSize: "1rem",
-                            "&:hover": { bgcolor: "#14B8A6" }, // hover effect?
-                            boxShadow: "0px 2px 4px rgba(0,0,0,0.15)",
-                        }}
-                    >
-                        {!session.completed 
-                        ? "Finish" 
-                        : session.reflected
-                            ? "View or edit Reflection"
-                            : "Start Reflection"}
+                    {session.state === "CREATED" && (
+                        
+                        <Button
+                            variant="contained"
+                            onClick={() => {
+                                if (session.state == "CREATED") {
+                                    onFinish(session);
+                                    return;
+                                }
+    
+                                onStartReflection(session);
+                            }}
+                            sx={{
+                                minWidth: "48px",
+                                height: "48px",
+                                bgcolor: "#14B8A6",
+                                textTransform: "none",
+                                fontWeight: 600,
+                                borderRadius: "12px",
+                                p: 2,
+                                fontSize: "1rem",
+                                "&:hover": { bgcolor: "#14B8A6" }, // hover effect?
+                                boxShadow: "0px 2px 4px rgba(0,0,0,0.15)",
+                            }}
+                        > Start Reflection
                     </Button>
+                    )}
+                        
+                       
                 </Box>
             </CardActions>
 

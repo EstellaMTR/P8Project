@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Box, Typography, Paper, Card, CardActions, CardContent, List } from "@mui/material";
 import CreateSessionPopUp from "../components/CreateSessionPopUp/CreateSessionPopUp.jsx"; //this is our popup component
+import ReflectionPopUp from "../components/ReflectionPopUp/ReflectionPopUp.jsx";
 import SessionCard from "../components/SessionCard/SessionCard.jsx"; //this is our session card component
 import { HamburgerMenu } from "../components/HamburgerMenu/HamburgerMenu.jsx";
 import AcademicSessionCard from "../components/Cards/academicSessionCard.jsx";
@@ -8,6 +9,7 @@ import AcademicSessionCard from "../components/Cards/academicSessionCard.jsx";
 import {ChangeStateRequest, CreateRequest, EditRequest, UserControllerApi} from "../api/src/index.js"
 import {AcademicSessionControllerApi} from "../api/src/index.js"
 import BackgroundBox from "../components/Cards/BackgroundBox.jsx";
+import { ReflectionAnswerControllerApi, ReflectionAnswerCreateRequest } from "../api/src/index.js";
 
 
 // HOW TO TALK TO THE SERVER AND GET THINGS FROM IT
@@ -34,6 +36,12 @@ export default function Homepage({user}) {
     const [editingSession, setEditingSession] = useState(null);
 
     const [open, setOpen] = useState(false);
+
+    const [reflectionOpen, setReflectionOpen] = useState(false);
+    
+    const [reflectionSession, setReflectionSession] = useState(null);
+    
+
 
     const handleSave = (session) => { 
         const createRequest = new CreateRequest()
@@ -133,22 +141,41 @@ export default function Homepage({user}) {
             })
         };
 
+        const handleFinish = (session) => {
+            changeState(session.id);
+            setReflectionSession(session);
+            setReflectionOpen(true);
+        }
        
 
         const handleStartReflection = (session) => {
+            changeState(session.id)
             setReflectionSession(session);
             setReflectionOpen(true);
         };
 
-        const handleSaveReflection = (id, reflectionText) => {
-            setSessions(prev =>
-                prev.map(s =>
-                    s.id === id ? { ...s, reflection: reflectionText } : s
-                )
-            );
-        };
+        const handleSaveReflection = (sessionWithReflections) => {
+    
+            const { reflections } = sessionWithReflections;
 
-            
+            reflections.forEach((reflection) => {
+            const request = new ReflectionAnswerCreateRequest();
+            request.goalId = reflection.goal.id;
+            request.reflectionAnswer1 = reflection.answers.q1;
+            request.reflectionAnswer2 = reflection.answers.q2;
+            request.reflectionAnswer3 = String(reflection.rating);
+
+            new ReflectionAnswerControllerApi().create1(request, (error, data, response) => {
+                if (error) {
+                    console.error("Failed to save reflection:", error);
+                } else {
+                    console.log("Reflection saved:", JSON.stringify(data));
+                }
+            });
+        });
+    };
+
+                
 
     
     useEffect(() => {
@@ -197,7 +224,9 @@ export default function Homepage({user}) {
 
     <HamburgerMenu /> 
 
-    <h1> Hello {name}</h1>
+    <Box sx={{display: "flex", justifyContent: "center", mt: 4}}>
+        <h1> Hello {name}</h1>
+    </Box>
 
     <Box sx={{
         display: "flex",
@@ -246,7 +275,7 @@ export default function Homepage({user}) {
                               session={session}
                               onEdit={handleEdit}
                               onDelete={handleDelete}
-                              onFinish={changeState}
+                              onFinish={handleFinish}
                               onStartReflection={handleStartReflection}
                             />
                             </Paper>
@@ -258,16 +287,24 @@ export default function Homepage({user}) {
         
         <BackgroundBox cardContent={
             <>
-            <Typography variant="h4" >Ready for Reflection</Typography>
+            <Typography variant="h4" >Finished Sessions</Typography>
+
+            <ReflectionPopUp
+            open={reflectionOpen}
+            onClose={() => setReflectionOpen(false)}
+            session={reflectionSession}
+            onSave={handleSaveReflection}
+                    />
+
             <List>
-                 {sessions.filter(session => session.state === "PENDING_REFLECTION").map((session) => (
+                 {sessions.filter(session => session.state === "PENDING_REFLECTION" || session.state === "ARCHIVED").map((session) => (
                     // <AcademicSessionCard key={session.id} session={session} />
                      <Paper key={session.id} sx={{ p: 2, mt: 2 }}>
                             <SessionCard
                               session={session}
                               onEdit={handleEdit}
                               onDelete={handleDelete}
-                              onFinish={changeState}
+                              onFinish={handleFinish}
                               onStartReflection={handleStartReflection}
                             />
                             </Paper>

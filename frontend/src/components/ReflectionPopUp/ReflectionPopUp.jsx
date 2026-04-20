@@ -34,7 +34,7 @@ function IconContainer(props) {
 
 export default function ReflectionPopUp({ open, onClose, session, onSave }) {
 
-if (!open) {
+if (!session) {
     return null;
 }
 
@@ -265,7 +265,7 @@ if (!open) {
                                     justifyContent: "center",
                                 }}
                         >
-                                {goal}
+                                {goal.goal}
                             </Box>
                         ))}
 
@@ -318,7 +318,7 @@ if (!open) {
                     }}
              >
                     <FlagIcon />
-                     {session.goals[currentGoalIndex]}
+                     {session.goals[currentGoalIndex].goal}
                 </Box>
                 
                 <Typography>
