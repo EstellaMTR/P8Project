@@ -45,9 +45,9 @@ export function HamburgerMenu() {
                         <ListItemButton onClick={toggleDrawer(false)}>
                             <ListItemText primary="Home" />
                         </ListItemButton>
-                        <ListItemButton onClick={toggleDrawer(false)}>
+                        {/* <ListItemButton onClick={toggleDrawer(false)}>
                             <ListItemText primary="Archive" />
-                        </ListItemButton>
+                        </ListItemButton> */}
 
                         <ListItemButton 
                             button 

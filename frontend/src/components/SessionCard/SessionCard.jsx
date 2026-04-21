@@ -61,14 +61,14 @@ export default function SessionCard({ session, onEdit, onDelete, onFinish, onSta
                 </Typography>
             </Box>
 
-            {session.state == "CREATED" && (
+            {/* {session.state == "CREATED" && (
                 <IconButton 
                     sx={{ color: "#F4F7FF" }}
                     onClick={() => onEdit(session)}
                 >
                     <EditIcon fontSize="medium" />
                 </IconButton>
-            )}
+            )} */}
 
             <ExpandMore
                 expand={expanded}
@@ -139,7 +139,8 @@ export default function SessionCard({ session, onEdit, onDelete, onFinish, onSta
                 >
                 <ClockIcon sx={{ fontSize: 18 }} />
                 <Typography sx={{ fontSize: "0.95rem", fontWeight: 500 }}>
-                    {session.duration.hours} hours and {session.duration.minutes} minutes
+                    {Math.floor(session.duration / 60)} hours and {session.duration % 60} minutes
+                    {console.log("Duration: " + session.duration)}
                 </Typography>
             </Box>
 

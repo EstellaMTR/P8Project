@@ -123,7 +123,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, onEdit, se
             title: title.trim(),
             type,
             goals,
-            duration: { hours, minutes },
+            duration: (parseInt(hours) * 60) + parseInt(minutes),
             status: "planned",
             createdAt: Date.now(),
         });
@@ -133,6 +133,7 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, onEdit, se
 
     // Save session
     const handleSave = () => {
+        if (!validateBeforeCreate()) return;
         let h = 0;
         let min = 0;
         try {
@@ -260,7 +261,13 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, onEdit, se
                         Pick a session type
                     </Typography>
 
-                    <Tooltip title="(Add explanation text here later)" arrow>
+                    <Tooltip title={
+                            <div>
+                                Lecture refers to time spent in classes/teaching, whether online or physical. <br />
+                                Study refers to all study related activities i.e reading, completing homework/exercises, watching videos, taking quizzes etc. <br />
+                                Writing refers to time spent writing papers, essays, reports, thesis etc.
+                            </div>
+                        } arrow>
                         <HelpOutlineIcon
                             sx={{ fontSize: 20, color: "#14B8A6", cursor: "pointer" }}
                         />
@@ -343,7 +350,15 @@ export default function CreateSessionPopUp({ open, onClose, onCreate, onEdit, se
                         My goals for this session are...
                     </Typography>
 
-                    <Tooltip title="(Add explanation text here later)" arrow>
+                    <Tooltip title={
+                            <div>
+                                Here you write what goal(s) you want to achieve in this session. <br />
+                                The more specific the better. <br />
+                                Examples could be: Read and summarize Chapter 3, write 500 words of the introduction <br />
+                                or outline the main arguments in the paper you are writing. <br />
+                                You can add up to 3 goals for each session, and you can edit them by clicking the pencil icon next to each goal.
+                            </div>
+                        } arrow>
                         <HelpOutlineIcon
                             sx={{ fontSize: 20, color: "#14B8A6", cursor: "pointer" }}
                         />

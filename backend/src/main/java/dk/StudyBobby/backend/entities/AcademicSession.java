@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import jakarta.persistence.Column;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.time.Duration;
 import java.util.List;
 
 @Entity // An entity is the same as a table in the database, and each instance of this class will be a row in that table.
@@ -34,12 +33,12 @@ public class AcademicSession {
     
     private SessionState state; // enum
 
-    private Duration duration;
+    private Long duration;
 
     // Constructors
     public AcademicSession() {}
 
-    public AcademicSession(User user, String title, SessionType sessionType, SessionState state, Duration duration) {
+    public AcademicSession(User user, String title, SessionType sessionType, SessionState state, Long duration) {
         this.user = user;
         this.title = title;
         this.sessionType = sessionType;
@@ -73,6 +72,6 @@ public class AcademicSession {
     public SessionState getState() { return state; }
     public void setState(SessionState state) { this.state = state; }
 
-    public Duration getDuration() { return duration; }
-    public void setDuration(Duration duration) { this.duration = duration; }
+    public Long getDuration() { return duration; }
+    public void setDuration(Long duration) { this.duration = duration; }
 }

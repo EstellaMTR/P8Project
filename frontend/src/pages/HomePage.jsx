@@ -58,7 +58,7 @@ export default function Homepage({user}) {
 
         createRequest.state = "CREATED"
 
-        
+        console.log("Session received from popup:", JSON.stringify(session));
         new AcademicSessionControllerApi().create2(createRequest, (error, data, response) => {
         if (error) {
             console.error(error);
@@ -197,6 +197,7 @@ export default function Homepage({user}) {
             //for (let i = 0; i < data)
             setSessions(data)
             console.log('API called successfully. Returned sessions: ' + JSON.stringify(data));
+            console.log("Full raw session:", JSON.stringify(data[0]));
         }
         });
     },[])
@@ -266,7 +267,7 @@ export default function Homepage({user}) {
             onCreate={handleSave}
             session={editingSession}
             />
-
+    
             <List>
                 {sessions.filter(session => session.state === "CREATED").map((session) => (
                     // <AcademicSessionCard key={session.id} session={session} />

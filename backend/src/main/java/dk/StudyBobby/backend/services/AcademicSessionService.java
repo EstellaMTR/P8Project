@@ -75,7 +75,7 @@ public class AcademicSessionService {
         session.setSessionType(request.getSessionType());
         session.setState(request.getState());
         session.setCreatedAt(LocalDateTime.now());
-        session.setDuration(Duration.ofMinutes(request.getDuration()));
+        session.setDuration(request.getDuration());
 
         // Save the newly created Academic Session in the Academic Session repo
         session = sessionRepo.save(session);
@@ -114,7 +114,7 @@ public class AcademicSessionService {
         session.setTitle(request.getTitle());
         session.setSessionType(request.getSessionType());
         session.setState(request.getState());
-        session.setDuration(Duration.ofMinutes(request.getDuration()));
+        session.setDuration(request.getDuration());
 
         // saving update of Academic Session in Academic Session repo
         session = sessionRepo.save(session);

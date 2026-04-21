@@ -209,7 +209,7 @@ if (!session) {
                 <Typography component="span" variant="h6" sx={{ fontSize: "1.25rem" }}>
                     Reflection
                 </Typography>
-                <IconButton 
+                {/* <IconButton 
                 onClick={onClose}
                 sx={{
                     position: "absolute",
@@ -224,7 +224,7 @@ if (!session) {
                 }}
                 >
                     <CloseIcon />
-                </IconButton>
+                </IconButton> */}
             </DialogTitle>
 
             <DialogContent>
@@ -288,8 +288,8 @@ if (!session) {
                         >
                             <AccessTimeIcon fontSize="small" />
 
-                            {session.duration.hours} hours and{" "}
-                            {session.duration.minutes} minutes
+                            {Math.floor(session.duration / 60)} hours and{" "}
+                            {session.duration % 60} minutes
                         </Box>
                     </Stack>
                 )}
