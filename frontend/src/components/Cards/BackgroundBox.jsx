@@ -1,25 +1,34 @@
 import { useEffect, useState } from "react";
 import { Button, Box, Typography, Paper, Card, CardActions, CardContent } from "@mui/material";
 
-export default function BackgroundBox({cardContent}) {
+export default function BackgroundBox({header, children}) {
 
-
-    return <>
+    return (
     <Card sx={{ 
         width: 500, 
-        margin: "10px 10px 5px 10px", 
-        padding: 4, 
+        margin: "10px", 
+        padding: 3, 
         bgcolor: "#d0E0FF", 
         color: "#1E1E1E", 
-        height: 600,
-        overflowY: "auto",
+        height: 550,
+        display: "flex",
+        flexDirection: "column",
         textAlign: "center",
-        alignContent: "center",
-        }}>
-        {cardContent}
+        }}
+    >
+        <Box sx={{ mb: 1.5}}>
+        {header}
+        </Box>
+
+        <Box
+            sx={{
+                flexGrow: 1,
+                overflowY: "auto",
+                pr: 1,
+            }}
+        >
+            {children}
+        </Box>
     </Card>
-
-
-    </>
-
+    );
 }
