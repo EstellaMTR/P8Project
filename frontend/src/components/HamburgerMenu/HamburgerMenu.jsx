@@ -19,17 +19,21 @@ export function HamburgerMenu() {
 
     return (
         <>
-            <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', }}>
                 <IconButton
                     onClick={toggleDrawer(true)}
                     aria-label="open drawer"
                     sx={{
                         bgcolor: 'var(--button)',
                         color: '#f4f7ff',
-                        '&:hover': { bgcolor: 'rgba(20, 184, 166, 0.9)' },
+                        borderRadius: '0 12px 12px 0',
+                        '&:hover': { 
+                            bgcolor: "#14B8A6", 
+                            boxShadow: "0px 4px 8px rgba(0,0,0,0.25)", 
+                        },
                     }}
                 >
-                    <MenuIcon />
+                    <MenuIcon sx={{fontSize: 40, }} />
                 </IconButton>
             </Box>
 
