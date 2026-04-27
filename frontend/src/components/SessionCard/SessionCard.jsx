@@ -190,7 +190,7 @@ export default function SessionCard({ session, onEdit, onDelete, onFinish, onSta
                                         textTransform: "none",
                                         fontWeight: 600,
                                         borderRadius: "12px",
-                                        p: 2,
+                                        p: 1.5,
                                         fontSize: "0.95rem",
                                         "&:hover": { bgcolor: "#14B8A6" }, // hover effect?
                                         boxShadow: "0px 2px 4px rgba(0,0,0,0.15)",
