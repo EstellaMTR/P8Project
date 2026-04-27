@@ -255,6 +255,7 @@ export default function Homepage({ user }) {
                                 textTransform: "none",
                                 marginBottom: "0px",
                                 marginTop: "20px",
+                                px: 1.5,
                                 boxShadow: "0px 2px 4px rgba(0,0,0,0.15)",
                                 transition: "all 0.2s ease",
                                 "&:hover": {
@@ -283,7 +284,7 @@ export default function Homepage({ user }) {
                 <List>
                     {sessions.filter(session => session.state === "CREATED").map((session) => (
                         // <AcademicSessionCard key={session.id} session={session} />
-                        <Paper key={session.id} sx={{ borderRadius: "16px", mt: 2, textAlign: "left", }}>
+                        <Paper key={session.id} sx={{ borderRadius: "16px", mt: 2, textAlign: "left", ml: 1, }}>
                             <SessionCard
                                 session={session}
                                 onEdit={handleEdit}
@@ -313,7 +314,7 @@ export default function Homepage({ user }) {
                 <List>
                     {sessions.filter(session => session.state === "PENDING_REFLECTION" || session.state === "ARCHIVED").map((session) => (
                         // <AcademicSessionCard key={session.id} session={session} />
-                        <Paper key={session.id} sx={{ p: 2, mt: 2 }}>
+                        <Paper key={session.id} sx={{ borderRadius: "16px", textAlign: "left", mt: 2, ml: 1, }}>
                             <SessionCard
                                 session={session}
                                 onEdit={handleEdit}
