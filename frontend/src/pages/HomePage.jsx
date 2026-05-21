@@ -4,26 +4,10 @@ import CreateSessionPopUp from "../components/CreateSessionPopUp/CreateSessionPo
 import ReflectionPopUp from "../components/ReflectionPopUp/ReflectionPopUp.jsx";
 import SessionCard from "../components/SessionCard/SessionCard.jsx"; //this is our session card component
 import { HamburgerMenu } from "../components/HamburgerMenu/HamburgerMenu.jsx";
-import AcademicSessionCard from "../components/Cards/academicSessionCard.jsx";
-// import {UserControllerApi} from "../api/src/api/UserControllerApi.js"
 import { ChangeStateRequest, CreateRequest, EditRequest, UserControllerApi } from "../api/src/index.js"
 import { AcademicSessionControllerApi } from "../api/src/index.js"
 import BackgroundBox from "../components/Cards/BackgroundBox.jsx";
 import { ReflectionAnswerControllerApi, ReflectionAnswerCreateRequest } from "../api/src/index.js";
-
-
-// HOW TO TALK TO THE SERVER AND GET THINGS FROM IT
-// useEffect(() => {
-//     new UserControllerApi().getAll((error, data, response) => {
-//     if (error) {
-//     console.error(error);
-//     } else {
-//     console.log('API called successfully. Returned data: ' + data[0].id);
-//     }
-//     });
-// },[]);
-
-// JSON.stringify
 
 
 export default function Homepage({ user }) {
@@ -201,18 +185,6 @@ export default function Homepage({ user }) {
             }
         });
     }, [])
-
-    //     useEffect(() => {
-    //     new AcademicSessionControllerApi().getBy(userId, (error, data, response) => {
-    //     if (error) {
-    //         console.error(error);
-    //     } else {
-    //         //for (let i = 0; i < data)
-    //         setSessions(data)
-    //         console.log('API called successfully. Returned sessions: ' + JSON.stringify(data));
-    //     }
-    //     });
-    // },[])
 
 
 
